@@ -121,7 +121,8 @@
 		},
 		updateURL:'https://raw.githubusercontent.com/libccy/noname',
 		mirrorURL:'https://raw.fgit.cf/libccy/noname',
-		hallURL:'47.99.105.222',
+		// hallURL:'47.99.105.222',
+		hallURL: '127.0.0.1',
 		assetURL:typeof nonameInitialized!='string'||nonameInitialized=='nodejs'?'':nonameInitialized,
 		userAgent:userAgent,
 		compatibleEdition:Boolean(typeof nonameInitialized=='string'&&nonameInitialized.match(/\/(?:com\.widget|yuri\.nakamura)\.noname\//)),
@@ -1063,10 +1064,10 @@
 						}
 					},
 					doubleclick_intro:{
-						name:'双击显示武将资料',
+						name:'双击显示角色资料',
 						init:true,
 						unfrequent:true,
-						intro:'双击武将头像后显示其资料卡',
+						intro:'双击角色头像后显示其资料卡',
 					},
 					video:{
 						name:'保存录像',
@@ -1920,7 +1921,7 @@
 					change_skin:{
 						name:'开启换肤',
 						init:true,
-						intro:'在武将的右键菜单中换肤，皮肤可在选项-文件-图片文件-皮肤图片中添加'
+						intro:'在角色的右键菜单中换肤，皮肤可在选项-文件-图片文件-皮肤图片中添加'
 					},
 					change_skin_auto:{
 						name:'自动换肤',
@@ -3193,7 +3194,7 @@
 					},
 					die_move:{
 						name:'阵亡效果',
-						intro:'阵亡后武将的显示效果',
+						intro:'阵亡后角色的显示效果',
 						init:'flip',
 						unfrequent:true,
 						item:{
@@ -3364,7 +3365,7 @@
 						unfrequent:true,
 					},
 					buttoncharacter_prefix:{
-						name:'武将前缀',
+						name:'角色前缀',
 						init:'default',
 						item:{
 							default:'默认',
@@ -3933,7 +3934,7 @@
 						}
 					},
 					show_rarity:{
-						name:'显示武将评级',
+						name:'显示角色评级',
 						init:false,
 						intro:'仅供娱乐，重启后生效',
 						unfrequent:true,
@@ -3963,8 +3964,8 @@
 						unfrequent:true,
 					},
 					recent_character_number:{
-						name:'最近使用武将',
-						intro:'自由选将对话框中最近使用武将的数量',
+						name:'最近使用角色',
+						intro:'自由选将对话框中最近使用角色的数量',
 						init:'12',
 						item:{
 							'6':'6',
@@ -3987,8 +3988,8 @@
 						unfrequent:true,
 					},
 					show_charactercard:{
-						name:'显示武将资料',
-						intro:'在武将界面单击时弹出武将资料卡',
+						name:'显示角色资料',
+						intro:'在角色界面单击时弹出角色资料卡',
 						init:true,
 						unfrequent:true
 					},
@@ -4006,13 +4007,13 @@
 					},
 					show_favourite_menu:{
 						name:'显示收藏菜单',
-						intro:'在选项-武将中显示收藏一栏',
+						intro:'在选项-角色中显示收藏一栏',
 						init:true,
 						unfrequent:true
 					},
 					show_ban_menu:{
 						name:'显示禁将菜单',
-						intro:'在选项-武将中显示禁将一栏',
+						intro:'在选项-角色中显示禁将一栏',
 						init:true,
 						unfrequent:true
 					},
@@ -4219,8 +4220,8 @@
 						unfrequent:true,
 					},
 					show_characternamepinyin:{
-						name:'显示武将名注解',
-						intro:'在武将资料卡显示武将名及其注解、性别、势力、体力等信息',
+						name:'显示角色名注解',
+						intro:'在角色资料卡显示角色名及其注解、性别、势力、体力等信息',
 						init:'showPinyin',
 						unfrequent:true,
 						item:{
@@ -4267,7 +4268,7 @@
 					},
 					show_skillnamepinyin:{
 						name:'显示技能名注解',
-						intro:'在武将资料卡显示技能名注解',
+						intro:'在角色资料卡显示技能名注解',
 						get init(){
 							return lib.configMenu.view.config.show_characternamepinyin.init;
 						},
@@ -4831,7 +4832,7 @@
 					}
 				},
 				intro:{
-					name:'将剑阁和挑战模式的武将添加到其它模式',
+					name:'将剑阁和挑战模式的角色添加到其它模式',
 					clear:true,
 					nopointer:true,
 				},
@@ -5048,7 +5049,7 @@
 						restart:true,
 					},
 					connect_limit_zhu:{
-						name:'常备主候选武将数',
+						name:'常备主候选角色数',
 						init:'group',
 						restart:true,
 						item:{
@@ -5086,6 +5087,20 @@
 						frequent:true,
 						restart:true,
 					},
+					connect_change_limit:{
+						name:'手气卡次数',
+						init:'5',
+						frequent:true,
+						restart:true,
+						item:{
+							'1':'1',
+							'2':'2',
+							'3':'3',
+							'4':'4',
+							'5':'5',
+							'-1':'不限'
+						}
+					},
 					connect_special_identity:{
 						name:'特殊身份',
 						init:false,
@@ -5119,6 +5134,8 @@
 				},
 				config:{
 					update:function(config,map){
+						// map.change_card.show();
+						// map.change_limit.show();
 						if(config.identity_mode=='stratagem'){
 							map.round_one_use_fury.show();
 							map.nei_auto_mark_camouflage.show();
@@ -5308,11 +5325,11 @@
 						intro:'若游戏人数不大于8，则开启后游戏中将有两个内奸（内奸胜利条件仍为主内1v1时击杀主公）'
 					},
 					choose_group:{
-						name:'神武将选择势力',
+						name:'神角色选择势力',
 						init:true,
 						restart:true,
 						frequent:true,
-						intro:'若开启此选项，选择神武将的玩家需在亮出自己的武将牌之前为自己选择一个势力。'
+						intro:'若开启此选项，选择神角色的玩家需在亮出自己的角色牌之前为自己选择一个势力。'
 					},
 					nei_fullscreenpop:{
 						name:'主内单挑特效',
@@ -5443,7 +5460,7 @@
 					},
 					change_card:{
 						name:'开启手气卡',
-						init:'disabled',
+						init:'unlimited',
 						item:{
 							disabled:'禁用',
 							once:'一次',
@@ -5479,7 +5496,7 @@
 								delete ui.continue_game;
 							}
 						},
-						intro:'游戏结束后可选择用相同的武将再进行一局游戏'
+						intro:'游戏结束后可选择用相同的角色再进行一局游戏'
 					},
 					dierestart:{
 						name:'死亡后显示重来',
@@ -5569,7 +5586,7 @@
 						},
 					},
 					choice_zhu:{
-						name:'主公候选武将数',
+						name:'主公候选角色数',
 						init:'3',
 						restart:true,
 						item:{
@@ -5582,7 +5599,7 @@
 						},
 					},
 					limit_zhu:{
-						name:'常备主候选武将数',
+						name:'常备主候选角色数',
 						init:'group',
 						restart:true,
 						item:{
@@ -5594,7 +5611,7 @@
 						},
 					},
 					choice_zhong:{
-						name:'忠臣候选武将数',
+						name:'忠臣候选角色数',
 						init:'4',
 						restart:true,
 						item:{
@@ -5607,7 +5624,7 @@
 						},
 					},
 					choice_nei:{
-						name:'内奸候选武将数',
+						name:'内奸候选角色数',
 						init:'5',
 						restart:true,
 						item:{
@@ -5620,7 +5637,7 @@
 						},
 					},
 					choice_fan:{
-						name:'反贼候选武将数',
+						name:'反贼候选角色数',
 						init:'3',
 						restart:true,
 						item:{
@@ -5677,12 +5694,12 @@
 						},
 						init:'mark',
 						frequent:true,
-						intro:'第一个明置武将牌的角色可获得首亮奖励'
+						intro:'第一个明置角色牌的角色可获得首亮奖励'
 					},
 					connect_viewnext:{
 						name:'观看下家副将',
 						init:false,
-						intro:'若开启此选项，所有的玩家将在挑选武将后，分发起始手牌之前，分别观看自己下家的副将。',
+						intro:'若开启此选项，所有的玩家将在挑选角色后，分发起始手牌之前，分别观看自己下家的副将。',
 					},
 					connect_zhulian:{
 						name:'珠联璧合',
@@ -5695,7 +5712,7 @@
 						init:true,
 						// frequent:true,
 						restart:true,
-						intro:'若开启此选项，玩家的第一个回合开始时，若其主武将牌有对应的君主武将牌，则其可以将此武将牌替换为对应的君主武将牌，然后重新调整体力上限。若玩家的体力上限因此增大，则玩家回复等量的体力。'
+						intro:'若开启此选项，玩家的第一个回合开始时，若其主角色牌有对应的君主角色牌，则其可以将此角色牌替换为对应的君主角色牌，然后重新调整体力上限。若玩家的体力上限因此增大，则玩家回复等量的体力。'
 					},
 					connect_change_card:{
 						name:'启用手气卡',
@@ -5763,7 +5780,7 @@
 						init:false,
 						frequent:true,
 						restart:true,
-						intro:'开放不同势力组合，以优先亮出的武将牌作为自己的势力，双势力武将则使用列表的第一个势力'
+						intro:'开放不同势力组合，以优先亮出的角色牌作为自己的势力，双势力角色则使用列表的第一个势力'
 					},
 					initshow_draw:{
 						name:'首亮奖励',
@@ -5779,7 +5796,7 @@
 					viewnext:{
 						name:'观看下家副将',
 						init:false,
-						intro:'若开启此选项，所有的玩家将在挑选武将后，分发起始手牌之前，分别观看自己下家的副将。',
+						intro:'若开启此选项，所有的玩家将在挑选角色后，分发起始手牌之前，分别观看自己下家的副将。',
 					},
 					aozhan_bgm:{
 						updatex:function(){
@@ -5824,25 +5841,25 @@
 						restart:true,
 					},
 					onlyguozhan:{
-						name:'使用国战武将',
+						name:'使用国战角色',
 						init:true,
 						frequent:true,
 						restart:true,
-						intro:'开启武将技能将替换为国战版本并禁用非国战武将'
+						intro:'开启角色技能将替换为国战版本并禁用非国战角色'
 					},
 					guozhanSkin:{
 						name:'使用国战皮肤',
 						init:true,
 						frequent:true,
 						restart:true,
-						intro:'开启此选项后，将会把有国战专属皮肤的武将替换为国战皮肤'
+						intro:'开启此选项后，将会把有国战专属皮肤的角色替换为国战皮肤'
 					},
 					junzhu:{
 						name:'替换君主',
 						init:true,
 						// frequent:true,
 						restart:true,
-						intro:'若开启此选项，玩家的第一个回合开始时，若其主武将牌有对应的君主武将牌，则其可以将此武将牌替换为对应的君主武将牌，然后重新调整体力上限。若玩家的体力上限因此增大，则玩家回复等量的体力。'
+						intro:'若开启此选项，玩家的第一个回合开始时，若其主角色牌有对应的君主角色牌，则其可以将此角色牌替换为对应的君主角色牌，然后重新调整体力上限。若玩家的体力上限因此增大，则玩家回复等量的体力。'
 					},
 					double_hp:{
 						name:'双将体力上限',
@@ -5883,7 +5900,7 @@
 						name:'默认展开自由选将',
 						init:false,
 						restart:true,
-						intro:'开启后自由选将对话框将默认显示全部武将'
+						intro:'开启后自由选将对话框将默认显示全部角色'
 					},
 					change_identity:{
 						name:'自由选择座位',
@@ -5927,7 +5944,7 @@
 					continue_game:{
 						name:'显示再战',
 						init:true,
-						intro:'游戏结束后可选择用相同的武将再进行一局游戏',
+						intro:'游戏结束后可选择用相同的角色再进行一局游戏',
 						onclick:function(bool){
 							game.saveConfig('continue_game',bool,this._link.config.mode);
 							if(get.config('continue_game')&&get.mode()=='guozhan'){
@@ -5983,7 +6000,7 @@
 						}
 					},
 					choice_num:{
-						name:'候选武将数',
+						name:'候选角色数',
 						init:'7',
 						restart:true,
 						item:{
@@ -5998,7 +6015,7 @@
 				}
 			},
 			versus:{
-				name:'对决',
+				name:'欢乐成双',
 				connect:{
 					update:function(config,map){
 						if(config.connect_versus_mode=='1v1'){
@@ -6018,13 +6035,13 @@
 					},
 					connect_versus_mode:{
 						name:'游戏模式',
-						init:'1v1',
+						init:'2v2',
 						item:{
-							'1v1':'1v1',
+							// '1v1':'1v1',
 							'2v2':'2v2',
-							'3v3':'3v3',
-							'4v4':'4v4',
-							'guandu':'官渡',
+							// '3v3':'3v3',
+							// '4v4':'4v4',
+							// 'guandu':'官渡',
 						},
 						frequent:true
 					},
@@ -6035,7 +6052,7 @@
 						intro:'最后行动的角色起始手牌数+1'
 					},
 					connect_choice_num:{
-						name:'侯选武将数',
+						name:'侯选角色数',
 						init:'20',
 						frequent:true,
 						item:{
@@ -6057,6 +6074,26 @@
 							'3':'3人',
 							'4':'4人',
 							'5':'5人',
+						}
+					},
+					connect_change_card:{
+						name:'启用手气卡',
+						init:false,
+						frequent:true,
+						restart:true,
+					},
+					connect_change_limit:{
+						name:'手气卡次数',
+						init:'5',
+						frequent:true,
+						restart:true,
+						item:{
+							'1':'1',
+							'2':'2',
+							'3':'3',
+							'4':'4',
+							'5':'5',
+							'-1':'不限'
 						}
 					},
 					// connect_ban_weak:{
@@ -6167,15 +6204,15 @@
 					},
 					versus_mode:{
 						name:'游戏模式',
-						init:'four',
+						init:'two',
 						item:{
-							four:'对抗',
-							three:'统率',
-							two:'欢乐',
-							guandu:'官渡',
-							jiange:'剑阁',
-							siguo:'四国',
-							standard:'自由'
+							// four:'对抗',
+							// three:'统率',
+							two:'欢乐成双',
+							// guandu:'官渡',
+							// jiange:'剑阁',
+							// siguo:'四国',
+							// standard:'自由'
 							// endless:'无尽',
 							// triple:'血战',
 							// one:'<span style="display:inline-block;width:100%;text-align:center">1v1</span>',
@@ -6195,7 +6232,7 @@
 						frequent:true,
 					},
 					enable_all:{
-						name:'启用全部武将',
+						name:'启用全部角色',
 						init:false,
 						frequent:true,
 						restart:true,
@@ -6207,7 +6244,7 @@
 						restart:true,
 					},
 					enable_all_three:{
-						name:'启用全部武将',
+						name:'启用全部角色',
 						init:false,
 						frequent:true,
 						restart:true,
@@ -6306,6 +6343,16 @@
 						},
 						frequent:true,
 					},
+					change_card:{
+						name:'开启手气卡',
+						init:'unlimited',
+						item:{
+							disabled:'禁用',
+							once:'一次',
+							twice:'两次',
+							unlimited:'无限',
+						},
+					},
 					double_character_jiange:{
 						name:'双将模式',
 						init:false,
@@ -6321,15 +6368,15 @@
 						name:'替补模式',
 						init:false,
 						frequent:true,
-						intro:'每个额外选择一名武将，死亡后用该武将代替重新上场，替补武将用完时失败'
+						intro:'每个额外选择一名角色，死亡后用该角色代替重新上场，替补角色用完时失败'
 					},
 					expand_dialog:{
 						name:'默认展开选将框',
-						intro:'选将框打开时直接显示全部武将（可能使游戏在开始时卡顿）',
+						intro:'选将框打开时直接显示全部角色（可能使游戏在开始时卡顿）',
 						init:false,
 					},
 					siguo_character:{
-						name:'专属武将出场率',
+						name:'专属角色出场率',
 						init:'increase',
 						item:{
 							increase:'大概率',
@@ -6564,53 +6611,6 @@
 					},
 				}
 			},
-			connect:{
-				name:'联机',
-				config:{
-					connect_nickname:{
-						name:'联机昵称',
-						input:true,
-						frequent:true,
-					},
-					connect_avatar:{
-						name:'联机头像',
-						init:'caocao',
-						item:{},
-						frequent:true,
-						onclick:function(item){
-							game.saveConfig('connect_avatar',item);
-							game.saveConfig('connect_avatar',item,'connect');
-						}
-					},
-					hall_ip:{
-						name:'联机大厅',
-						input:true,
-						frequent:true,
-					},
-					hall_button:{
-						name:'联机大厅按钮',
-						init:true,
-						frequent:true,
-						onclick:function(bool){
-							game.saveConfig('hall_button',bool,'connect');
-							if(ui.hall_button){
-								if(bool){
-									ui.hall_button.style.display='';
-								}
-								else{
-									ui.hall_button.style.display='none';
-								}
-							}
-						}
-					},
-					wss_mode:{
-						name:'使用WSS协议',
-						init:false,
-						frequent:true,
-						intro:'在用户填写的IP地址没有直接指定使用WS/WSS协议的情况下，默认使用WSS协议，而非WS协议来连接到联机服务器。<br>请不要轻易勾选此项！',
-					},
-				}
-			},
 			boss:{
 				name:'挑战',
 				config:{
@@ -6692,11 +6692,11 @@
 						name:'游戏模式',
 						init:'normal',
 						item:{
-							normal:'休闲',
-							kaihei:'开黑',
-							huanle:'欢乐',
-							binglin:'兵临',
-							online:'智斗',
+							normal:'基本',
+							// kaihei:'开黑',
+							// huanle:'欢乐',
+							// binglin:'兵临',
+							// online:'智斗',
 						},
 						restart:true,
 						frequent:true,
@@ -6712,6 +6712,20 @@
 						init:false,
 						frequent:true,
 						restart:true,
+					},
+					connect_change_limit:{
+						name:'手气卡次数',
+						init:'5',
+						frequent:true,
+						restart:true,
+						item:{
+							'1':'1',
+							'2':'2',
+							'3':'3',
+							'4':'4',
+							'5':'5',
+							'-1':'不限'
+						}
 					},
 				},
 				config:{
@@ -6759,11 +6773,11 @@
 						name:'游戏模式',
 						init:'normal',
 						item:{
-							normal:'休闲',
-							kaihei:'开黑',
-							huanle:'欢乐',
-							binglin:'兵临',
-							online:'智斗',
+							normal:'基本',
+							// kaihei:'开黑',
+							// huanle:'欢乐',
+							// binglin:'兵临',
+							// online:'智斗',
 						},
 						restart:true,
 						frequent:true,
@@ -6853,7 +6867,7 @@
 								delete ui.continue_game;
 							}
 						},
-						intro:'游戏结束后可选择用相同的武将再进行一局游戏'
+						intro:'游戏结束后可选择用相同的角色再进行一局游戏'
 					},
 					dierestart:{
 						name:'死亡后显示重来',
@@ -6888,7 +6902,7 @@
 						}
 					},
 					choice_zhu:{
-						name:'地主候选武将数',
+						name:'地主候选角色数',
 						init:'3',
 						restart:true,
 						item:{
@@ -6901,7 +6915,7 @@
 						},
 					},
 					choice_fan:{
-						name:'农民候选武将数',
+						name:'农民候选角色数',
 						init:'3',
 						restart:true,
 						item:{
@@ -6924,7 +6938,7 @@
 							var container=ui.create.div('.popup-container.editor');
 							var node=container;
 							var map=get.config('character_online')||lib.characterOnline;
-							node.code='character='+get.stringify(map)+'\n/*\n    这里是智斗三国模式的武将将池。\n    您可以在这里编辑对武将将池进行编辑，然后点击“保存”按钮即可保存。\n    将池中的Key势力武将，仅同时在没有被禁用的情况下，才会出现在选将框中。\n    而非Key势力的武将，只要所在的武将包没有被隐藏，即可出现在选将框中。\n    该将池为单机模式/联机模式通用将池。在这里编辑后，即使进入联机模式，也依然会生效。\n    但联机模式本身禁用的武将（如神貂蝉）不会出现在联机模式的选将框中。\n*/';
+							node.code='character='+get.stringify(map)+'\n/*\n    这里是智斗三国模式的角色将池。\n    您可以在这里编辑对角色将池进行编辑，然后点击“保存”按钮即可保存。\n    将池中的Key势力角色，仅同时在没有被禁用的情况下，才会出现在选将框中。\n    而非Key势力的角色，只要所在的角色包没有被隐藏，即可出现在选将框中。\n    该将池为单机模式/联机模式通用将池。在这里编辑后，即使进入联机模式，也依然会生效。\n    但联机模式本身禁用的角色（如神貂蝉）不会出现在联机模式的选将框中。\n*/';
 							ui.window.classList.add('shortcutpaused');
 							ui.window.classList.add('systempaused');
 							var saveInput=function(){
@@ -6953,7 +6967,7 @@
 										alert('请严格按照格式填写，不要写入不为数组的数据');
 									}
 									else if(e=='enough'){
-										alert('请保证至少写入了3个势力，且每个势力至少有3个武将');
+										alert('请保证至少写入了3个势力，且每个势力至少有3个角色');
 									}
 									else if(e=='err'){
 										alert('代码格式有错误，请对比示例代码仔细检查');
@@ -7033,7 +7047,7 @@
 						frequent:true,
 					},
 					connect_enable_jin:{
-						name:'启用晋势力武将',
+						name:'启用晋势力角色',
 						init:false,
 						restart:true,
 						frequent:true,
@@ -7060,7 +7074,7 @@
 						frequent:true,
 					},
 					enable_jin:{
-						name:'启用晋势力武将',
+						name:'启用晋势力角色',
 						init:false,
 						restart:true,
 						frequent:true,
@@ -7072,6 +7086,53 @@
 						else{
 							map.enable_jin.show();
 						}
+					},
+				}
+			},
+			connect:{
+				name:'联机',
+				config:{
+					connect_nickname:{
+						name:'联机昵称',
+						input:true,
+						frequent:true,
+					},
+					connect_avatar:{
+						name:'联机头像',
+						init:'caocao',
+						item:{},
+						frequent:true,
+						onclick:function(item){
+							game.saveConfig('connect_avatar',item);
+							game.saveConfig('connect_avatar',item,'connect');
+						}
+					},
+					hall_ip:{
+						name:'联机大厅',
+						input:true,
+						frequent:true,
+					},
+					hall_button:{
+						name:'联机大厅按钮',
+						init:true,
+						frequent:true,
+						onclick:function(bool){
+							game.saveConfig('hall_button',bool,'connect');
+							if(ui.hall_button){
+								if(bool){
+									ui.hall_button.style.display='';
+								}
+								else{
+									ui.hall_button.style.display='none';
+								}
+							}
+						}
+					},
+					wss_mode:{
+						name:'使用WSS协议',
+						init:false,
+						frequent:true,
+						intro:'在用户填写的IP地址没有直接指定使用WS/WSS协议的情况下，默认使用WSS协议，而非WS协议来连接到联机服务器。<br>请不要轻易勾选此项！',
 					},
 				}
 			},
@@ -7206,7 +7267,7 @@
 						init:true,
 					},
 					chess_character:{
-						name:'战棋武将',
+						name:'战棋角色',
 						init:true,
 						frequent:true,
 					},
@@ -7565,9 +7626,9 @@
 			'<div style="margin:10px">游戏操作</div><ul style="margin-top:0"><li>在命令框中输出结果<br>game.print(str)<li>清除命令框中的内容<br>cls<li>上一条/下一条输入的内容<br>up/down<li>游戏结束<br>game.over(bool)'+
 			'<li>角色资料<br>lib.character<li>卡牌资料<br>lib.card</ul>',
 			'游戏名词':'<ul><li>智囊：无名杀默认为过河拆桥/无懈可击/无中生有/洞烛先机。牌堆中没有的智囊牌会被过滤。可在卡牌设置中自行增减。若没有可用的智囊，则改为随机选取的三种锦囊牌的牌名。'+
-			'<li>仁库：部分武将使用的游戏外共通区域。至多包含六张牌。当有新牌注入后，若牌数超过上限，则将最早进入仁库的溢出牌置入弃牌堆。'+
+			'<li>仁库：部分角色使用的游戏外共通区域。至多包含六张牌。当有新牌注入后，若牌数超过上限，则将最早进入仁库的溢出牌置入弃牌堆。'+
 			'<li>护甲：和体力类似，每点护甲可抵挡1点伤害，但不影响手牌上限。'+
-			'<li>随从：通过技能获得，拥有独立的技能、手牌区和装备区（共享判定区），出场时替代主武将的位置；随从死亡时自动切换回主武将。'+
+			'<li>随从：通过技能获得，拥有独立的技能、手牌区和装备区（共享判定区），出场时替代主角色的位置；随从死亡时自动切换回主角色。'+
 			'<li>发现：从三张随机亮出的牌中选择一张，若无特殊说明，则获得此牌。'+
 			'<li>蓄能技：发动时可以增大黄色的数字。若如此做，红色数字于技能的结算过程中改为原来的两倍。'+
 			'<li>施法：若技能的拥有者未拥有等待执行的同名“施法”效果，则其可以发动“施法”技能。其须选择声明一个数字X（X∈[1, 3]），在此之后的第X个回合结束时，其执行“施法”效果，且效果中的数字X视为与技能发动者声明的X相同。'+
@@ -7993,7 +8054,8 @@
 		},
 		placePoppedDialog:function(dialog,e){
 			if(dialog._place_text){
-				if(dialog._place_text.firstChild.offsetWidth>=190||dialog._place_text.firstChild.offsetHeight>=30){
+				// if(dialog._place_text.firstChild.offsetWidth>=190||dialog._place_text.firstChild.offsetHeight>=30){
+				if(dialog._place_text.firstChild.offsetWidth>=190){
 					dialog._place_text.style.marginLeft='14px';
 					dialog._place_text.style.marginRight='14px';
 					dialog._place_text.style.textAlign='left';
@@ -8824,6 +8886,33 @@
 						if(sortBy&&typeof sortBy=='function') list.sort((a,b)=>sortBy(a)-sortBy(b));
 						else list.sort();
 						return list[0];
+					}
+				});
+				Object.defineProperty(Array.prototype, 'shuffle', {
+					configurable: true,
+					enumerable: false,
+					writable: true,
+					value: function() {
+						for (let i = 0; i < this.length; ++i) {
+							let r = Math.floor(Math.random() * this.length);
+							;[this[i], this[r]] = [this[r], this[i]];
+						}
+						return this;
+					}
+				});
+				Object.defineProperty(Array.prototype, 'sample', {
+					configurable: true,
+					enumerable: false,
+					writable: true,
+					value: function(num) {
+						let list = this.slice();
+						num = Math.min(num, list.length);
+						let result = [];
+						for (let i = 0; i < num; ++i) {
+							let r = Math.floor(Math.random() * list.length);
+							result.push(...list.splice(r, 1));
+						}
+						return result;
 					}
 				});
 				window.onkeydown=function(e){
@@ -11299,7 +11388,7 @@
 					localStorage.setItem(lib.configprefix+'background',lib.config.image_background);
 				}
 				else if(lib.config.image_background=='default'&&lib.config.theme=='simple'){
-					localStorage.setItem(lib.configprefix+'background','ol_bg');
+					localStorage.setItem(lib.configprefix+'background','gensoukyou3_bg');
 				}
 				else{
 					localStorage.removeItem(lib.configprefix+'background');
@@ -12199,6 +12288,7 @@
 			none:'◈',
 			ghujia:'护甲',
 			ghujia_bg:'甲',
+			spell: '符卡',
 			heart2:"红桃",
 			diamond2:"方片",
 			spade2:"黑桃",
@@ -12227,6 +12317,10 @@
 			shu:'蜀',
 			wu:'吴',
 			qun:'群',
+			hakurei: '博丽',
+			moriya: '守矢',
+			chitei: '地底',
+			getsumen: '月面',
 			shen:'神',
 			western:'西',
 			key:'键',
@@ -12248,7 +12342,7 @@
 			draw_card:'摸牌',
 			discard_card:'弃牌',
 			take_damage:'受伤害',
-			reset_character:'复原武将牌',
+			reset_character:'复原角色牌',
 			recover_hp:'回复体力',
 			lose_hp:'失去体力',
 			get_damage:'受伤害',
@@ -12354,12 +12448,14 @@
 			group_qun:"群势力",
 			group_key:"键势力",
 			group_jin:"晋势力",
+			group_hakurei: '博丽势力',
 			group_wei_bg:"魏",
 			group_shu_bg:"蜀",
 			group_wu_bg:"吴",
 			group_qun_bg:"群",
 			group_key_bg:"键",
 			group_jin_bg:"晋",
+			group_hakurei_bg: '博丽',
 			zhengsu:'整肃',
 			zhengsu_leijin:'擂进',
 			zhengsu_bianzhen:'变阵',
@@ -14171,7 +14267,7 @@
 					}
 					while(player!=end);
 					event.changeCard=get.config('change_card');
-					if(_status.connectMode||(lib.config.mode=='doudizhu'&&_status.mode=='online')||lib.config.mode!='identity'&&lib.config.mode!='guozhan'&&lib.config.mode!='doudizhu'){
+					if(_status.connectMode||(lib.config.mode=='doudizhu'&&_status.mode=='online')){
 						event.changeCard='disabled';
 					}
 					"step 1"
@@ -14887,15 +14983,19 @@
 							var cards=get.cards(hs.length);
 							player.directgain(cards);
 							player._start_cards=cards;
+							player.changeCount = (player.changeCount || 0) + 1;
+						} else {
+							player.cancelChange = true;
 						}
 					};
 					for(var i=0;i<event.players.length;i++){
+						if (event.players[i].cancelChange) continue;
 						if(event.players[i].isOnline()){
 							event.withol=true;
 							event.players[i].send(send);
 							event.players[i].wait(sendback);
 						}
-						else if(event.players[i]==game.me){
+						else if(event.players[i]==game.me ){
 							event.withme=true;
 							game.me.chooseBool('是否置换手牌？');
 							game.me.wait(sendback);
@@ -14908,6 +15008,13 @@
 					'step 2'
 					if(event.withol&&!event.resultOL){
 						game.pause();
+					}
+					'step 3'
+					var changeLimit = parseInt(lib.configOL.change_limit);
+					if (event.players.some(p => (p.isOnline() || p == game.me) && (changeLimit < 0 || p.changeCount < changeLimit) && !p.cancelChange)) {
+						var p = event.players.find(p => (changeLimit < 0 || p.changeCount < changeLimit) && !p.cancelChange);
+						console.log(p.changeCount, p.cancelChange);
+						event.goto(0);
 					}
 				},
 				phase:function(){
@@ -14971,7 +15078,7 @@
 						game.getGlobalHistory().isRound=true;
 					}
 					'step 1'
-					//规则集中的“回合开始后②（1v1武将登场专用）”
+					//规则集中的“回合开始后②（1v1角色登场专用）”
 					event.trigger('phaseBeforeStart');
 					'step 2'
 					//规则集中的“回合开始后③（处理“游戏开始时”的时机）”
@@ -15041,7 +15148,7 @@
 						ui.land.destroy();
 					}
 					'step 6'
-					//规则集中的“回合开始后⑦”，国战武将明置武将牌
+					//规则集中的“回合开始后⑦”，国战角色明置角色牌
 					event.trigger('phaseBeginStart');
 					'step 7'
 					//规则集中的“回合开始后⑨”，进行当先，化身等操作
@@ -15274,6 +15381,9 @@
 						if(!info) continue;
 						if(info.updateUsable=='phaseUse') stat.card[i]=0;
 					}
+					"step 3"
+					player.setSpell(player.baseSpellNum(), false);
+					game.log(player, '的出牌阶段结束，符卡数量还原为', get.cnNumber(player.countSpell()), '张');
 				},
 				phaseDiscard:function(){
 					"step 0"
@@ -15293,6 +15403,13 @@
 					.set('useCache',true);
 					"step 2"
 					event.cards=result.cards;
+					if (result.cards.includes('tao')) {
+						player.addMayHaveForAll('tao');
+					} else if (result.cards.includes('jiu') && player.countCards('h') == 1 && player.getHp() == 1) {
+						player.addMayHaveForAll('jiu');
+					} else if (result.cards.includes('shan')) {
+						player.addMayHaveForAll('shan');
+					}
 				},
 				phaseJieshu:function(){
 					event.trigger(event.name);
@@ -18431,7 +18548,7 @@
 						if(num==0&&targets.length>1){
 							if(!info.multitarget){
 								if(!event.fixedSeat&&!sort){
-									targets.sortBySeat((_status.currentPhase||player));
+									targets.sortBySeat((event.startPlayer||_status.currentPhase||player));
 								}
 								if(animate)	for(var i=0;i<targets.length;i++){
 									targets[i].animate('target');
@@ -19231,6 +19348,9 @@
 					if(cards){
 						var map={};
 						for(var i of cards){
+							if (event.visible) {
+								player.removeMayNotHaveForAll(i.name);
+							}
 							var owner=get.owner(i,'judge');
 							if(owner&&(owner!=player||get.position(i)!='h')){
 								var id=owner.playerid;
@@ -19499,7 +19619,7 @@
 					}
 					if(event.animate=='draw'){
 						player.$draw(cards.length);
-						if(event.log) game.log(player,'将',get.cnNumber(cards.length),'张牌置于了武将牌上');
+						if(event.log) game.log(player,'将',get.cnNumber(cards.length),'张牌置于了角色牌上');
 						game.pause();
 						setTimeout(function(){
 							player.$addToExpansion(cards,null,event.gaintag);
@@ -19534,7 +19654,7 @@
 							for(var i in evtmap){
 								var source=(_status.connectMode?lib.playerOL:game.playerMap)[i];
 								source.$give(evtmap[i][0],player,false);
-								if(event.log) game.log(player,'将',evtmap[i][0],'置于了武将牌上');
+								if(event.log) game.log(player,'将',evtmap[i][0],'置于了角色牌上');
 							}
 						}
 						else{
@@ -19542,11 +19662,11 @@
 								var source=(_status.connectMode?lib.playerOL:game.playerMap)[i];
 								if(evtmap[i][1].length){
 									source.$giveAuto(evtmap[i][1],player,false);
-									if(event.log) game.log(player,'将',get.cnNumber(evtmap[i][1].length),'张牌置于了武将牌上');
+									if(event.log) game.log(player,'将',get.cnNumber(evtmap[i][1].length),'张牌置于了角色牌上');
 								}
 								if(evtmap[i][2].length){
 									source.$give(evtmap[i][2],player,false);
-									if(event.log) game.log(player,'将',evtmap[i][2],'置于了武将牌上');
+									if(event.log) game.log(player,'将',evtmap[i][2],'置于了角色牌上');
 								}
 							}
 						}
@@ -19621,6 +19741,14 @@
 									}
 									delete evt.getParent().waitingForTransition;
 								});
+							}
+						}
+						for (var card of cards) {
+							if (card.original == 'h') {
+								if (player.countCards('h') == 0)
+									player.clearMayHave();
+								else if (event.visible)
+									player.removeMayHaveForAll(card.name);
 							}
 						}
 					}
@@ -20726,7 +20854,10 @@
 							global:[],
 							source:[],
 							viewed:[]
-						}
+						},
+						// 东方杀新增
+						mayHave: {},
+						mayNotHave: {}
 					};
 					player.queueCount=0;
 					player.outCount=0;
@@ -20981,19 +21112,40 @@
 					});
 				}
 				//获取该角色被other所知的牌。
-				getKnownCards(other,filter){
+				getKnownCards(other,filter,countMuniu){
 					if(!other)other = _status.event.player;
 					if(!other)other = this;
 					if(!filter)filter = (card)=>{return true};
-					return this.getCards('h',function(card){
+					else if (typeof filter == 'string') filter = (card) => {return card.name == filter};
+					var cards = [];
+					this.getCards('h',function(card){
 						return card.isKnownBy(other) && filter(card);
-					});
+					}).forEach(card => cards.push(card));
+					if (countMuniu) {
+						var muniu = this.getEquip('muniu');
+						if (muniu && muniu.cards) {
+							muniu.cards.filter(card => card.isKnownBy(other) && filter(card)).forEach(card => cards.push(card));
+						}
+					}
+					return cards;
+				}
+				//获取该角色不被other所知的牌的数量。
+				getUnknownNum(other, countMuniu){
+					var num = this.getCards('h').length;
+					if (countMuniu) {
+						var muniu = this.getEquip('muniu');
+						if (muniu && muniu.cards) {
+							num += muniu.cards.length;
+						}
+					}
+					return num - this.getKnownCards(other, null, countMuniu).length;
 				}
 				//判断此角色的手牌是否已经被看光了。
-				isAllCardsKnown(other){
+				isAllCardsKnown(other, countMuniu){
 					if(!other)other = _status.event.player;
 					if(!other)other = this;
-					return this.countCards('h',function(card){
+					var flag = countMuniu ? 'hm' : 'h';
+					return this.countCards(flag,function(card){
 						return !card.isKnownBy(other);
 					}) == 0;
 				}
@@ -21992,6 +22144,24 @@
 				getDamagedHp(raw){
 					return this.maxHp-this.getHp(raw);
 				}
+				//角色的“防御值”，AI用
+				getDefense() {
+					var def = this.getHp() * 2 + this.countCards('h');
+					var muniu = this.getEquip('muniu');
+					if (muniu && muniu.cards) def += muniu.cards.length;
+					if (this.getEquip('bagua') || this.getEquip('renwang')) def++;
+					if (this.getEquip('baiyin')) def += 0.5;
+					if (this.getEquip('tengjia')) {
+						if (this.countCards('hm', 'shan') > 1) def++;
+						else if (this.countCards('hm', 'shan') == 1) def += 0.5;
+						else if (this.countCards('hm', 'shan') == 0) def--;
+						if (this.countCards('hm', 'wuxie') > 0) def += 0.5;
+						if (this.isLinked()) def -= 0.5;
+					}
+					if (this.countMark('zhangqi') > 0) def -= 2;
+					if (this.identity == 'zhu') def -= 0.5;
+					return def;
+				}
 				changeGroup(group,log,broadcast){
 					var next=game.createEvent('changeGroup');
 					next.player=this;
@@ -22538,7 +22708,19 @@
 					this.tempSkills={};
 					this.storage={};
 					this.marks={};
-					this.ai={friend:[],enemy:[],neutral:[]};
+					this.ai={
+						friend:[],
+						enemy:[],
+						neutral:[],
+						handcards:{
+							global:[],
+							source:[],
+							viewed:[]
+						},
+						// 东方杀新增
+						mayHave: {},
+						mayNotHave: {}
+					};
 
 					this.$uninit();
 
@@ -23081,6 +23263,9 @@
 					if(Array.isArray(this.storage[i])) return this.storage[i].length;
 					return 0;
 				}
+				countShengyaoMarks() {
+					return ['fire', 'water', 'wood', 'gold', 'earth', 'sun', 'moon'].reduce((sum, mark) => sum + this.countMark(`shengyao_${mark}`), 0);
+				}
 				hasMark(i){
 					return this.countMark(i)>0;
 				}
@@ -23097,7 +23282,7 @@
 					if(storage&&this.storage[i]){
 						this.syncStorage(i);
 					}
-					if(i=='ghujia'||((!this.marks[i].querySelector('.image')||this.storage[i+'_markcount'])&&
+					if(i=='ghujia'||i=='spell'||((!this.marks[i].querySelector('.image')||this.storage[i+'_markcount'])&&
 						lib.skill[i]&&lib.skill[i].intro&&!lib.skill[i].intro.nocount&&
 						(this.storage[i]||this.storage[i+'_markcount']||lib.skill[i].intro.markcount))){
 						this.marks[i].classList.add('overflowmark')
@@ -23113,6 +23298,9 @@
 						}
 						else if(i=='ghujia'){
 							num=this.hujia;
+						}
+						else if(i=='spell'){
+							num=this.countSpell();
 						}
 						else if(typeof this.storage[i]=='number'){
 							num=this.storage[i];
@@ -23152,6 +23340,30 @@
 					for(var i in this.marks){
 						this.updateMark(i);
 					}
+				}
+				removeSpell(num,log) {
+					this.removeMark('spell', num, false);
+					if (log !== false) {
+						game.log(this, '失去了', get.cnNumber(num), '张符卡');
+					}
+				}
+				addSpell(num,log) {
+					this.addMark('spell', num, false);
+					if (log !== false) {
+						game.log(this, '获得了', get.cnNumber(num), '张符卡');
+					}
+				}
+				setSpell(num,log) {
+					this.setMark('spell', num, false);
+					if (log !== false) {
+						game.log(this, '的符卡数量被置为', get.cnNumber(num), '张');
+					}
+				}
+				countSpell() {
+					return this.countMark('spell');
+				}
+				baseSpellNum() {
+					return game.checkMod(this, 1, 'baseSpell', this);
 				}
 				num(arg1,arg2,arg3){
 					if(get.itemtype(arg1)=='position'){
@@ -23338,6 +23550,16 @@
 							for(j=0;j<this.node.expansions.childElementCount;j++){
 								if(!this.node.expansions.childNodes[j].classList.contains('removing')){
 									cards.push(this.node.expansions.childNodes[j]);
+								}
+							}
+						}
+						else if (arg1[i]=='m'){
+							var muniu = this.getEquip('muniu');
+							if (muniu && muniu.cards) {
+								for (var c of muniu.cards) {
+									if (!c.classList.contains('removing')) {
+										cards.push(c);
+									}
 								}
 							}
 						}
@@ -26163,10 +26385,12 @@
 							else if(!_status.event._global_waiting){
 								player.showTimer(time);
 							}
-							lib.node.torespondtimeout[this.playerid]=setTimeout(function(){
-								player.unwait('ai');
-								player.ws.ws.close();
-							},time+5000);
+							if (time > 0) {
+								lib.node.torespondtimeout[this.playerid]=setTimeout(function(){
+									player.unwait('ai');
+									player.ws.ws.close();
+								},time+5000);
+							}
 						}
 					}
 				}
@@ -26460,6 +26684,7 @@
 					}
 				}
 				showTimer(time){
+					if (time < 0) return;
 					if(!time&&lib.configOL){
 						time=parseInt(lib.configOL.choose_timeout)*1000;
 					}
@@ -26892,6 +27117,87 @@
 						min+=value[i];
 					}
 					return min;
+				}
+				// AI用，是否需要避免对target造成伤害
+				doNotHurt(target, damage) {
+					damage = damage || 1;
+					var x = 0;
+					for (var p of game.players) {
+						if (get.attitude(this, p) <= 0) {
+							x += p.getKnownCards(this, 'tao', true).length;
+						}
+					}
+					if (target.hasSkill('diaoou') && target.countCards('he') > 0 && target.getHp() + x > damage) {
+						for (var p of game.players) {
+							if (p.countMark('diaoou') > 0 && get.attitude(this, p) > 0 && p.getDefense() <= Math.max(6, target.getDefense())) {
+								return true;
+							}
+						}
+					}
+					if (target.hasSkill('suiwa') && get.attitude(this, target) <= 0 && target.getHp() + x > damage) {
+						for (var p of game.players) {
+							if (p.getEquip('baiyin')) return true;
+							if (!p.hasEmptySlot(2) && p != target && target.hasEmptySlot(2) && get.attitude(this, p) > 0) return false;
+						}
+					}
+					return false;
+				}
+				// AI用，牌是否有效
+				isCardEffective(card, target) {
+					target = target || this;
+					if (!card) return false;
+					if (typeof card == 'string') card = {name: card, isCard: true};
+					if (card.name == 'sha') {
+						if (target.hasSkill('tengjia3') && !game.hasNature(card)) return false;
+						if (target.hasSkill('renwang') && get.color(card) == 'black') return false;
+					} else if (card.name == 'nanman') {
+						if (target.hasSkill('tengjia1')) return false;
+					} else if (card.name == 'wanjian') {
+						if (target.hasSkill('tengjia1')) return false;
+					}
+					return true;
+				}
+				// AI用，模拟计算对target造成的伤害
+				// odamage: { card: xxx, num: xxx, nature: xxx }
+				calcDamage(from, target, odamage, skip) {
+					var damage = odamage;
+					if (damage.card && !damage.nature) damage.nature = damage.card.nature;
+					skip = skip || 1;
+					if (skip <= 1) damage = this.calcConfirmDamage(from, target, damage);
+					if (skip <= 2) damage = this.calcDamageCaused(from, target, damage);
+					if (skip <= 3) damage = this.calcDamageInflicted(from, target, damage);
+					return damage;
+				}
+				calcConfirmDamage(from, target, damage) {
+					if (damage.card) {
+						if (damage.card.name == 'sha' && from && (from.hasSkill('jiu') || damage.card.jiu)) damage.num++;
+					}
+					if (target.countMark('zhangqi') > 0) {
+						damage.num++;
+						damage.nature = 'fire';
+					}
+					return damage;
+				}
+				calcDamageCaused(from, target, damage) {
+					if (damage.card) {
+						if (damage.card.name == 'sha' && from && from.hasSkill('guding_skill') && target.countCards('h') == 0) {
+							damage.num++;
+						}
+					}
+					return damage;
+				}
+				calcDamageInflicted(from, target, damage) {
+					if (damage.card && from && !from.ignoreArmor(target, damage.card)) {
+						if (target.hasSkill('tengjia2') && damage.nature == 'fire') damage.num++;
+						if ((target.hasSkill('baiyin_skill') || (target.hasSkill('jinlun') && target.hasEmptySlot(2))) && damage.num > 1)
+							damage.num = 1;
+					}
+					if (damage.num < 1) damage.num = 0;
+					return damage;
+				}
+				ignoreArmor(target, card) {
+					if (this.hasSkill('qinggang_skill')) return true;
+					return false;
 				}
 				addSubPlayer(cfg){
 					var skill='subplayer_'+cfg.name+'_'+get.id();
@@ -28261,6 +28567,21 @@
 					}
 					return true;
 				}
+				shaNoLimit() {
+					return this.hasSkill('zhuge_skill') || this.hasSkill('sha_nolimit');
+				}
+				allyTaoNum(jiu_user) {
+					var num = 0;
+					for (var p of game.players) {
+						if (get.attitude(this, p) > 0) {
+							num += p.getKnownCards(this, 'tao', true).length;
+							if (jiu_user && jiu_user == p) {
+								num += p.getKnownCards(this, 'jiu', true).length;
+							}
+						}
+					}
+					return num;
+				}
 				hasGlobalTag(tag,arg){
 					var skills=lib.skill.global.slice(0);
 					game.expandSkills(skills);
@@ -28393,6 +28714,8 @@
 					else if(get.itemtype(ignore)==='card') selected.add(ignore);
 					/*if(this===viewer||get.itemtype(viewer)==='player'&&viewer.hasSkillTag('viewHandcard',null,this,true)) cards=this.getCards('h');
 					else cards=this.getShownCards();*/
+					if (this.mayHave(viewer, 'sha')) return true;
+					if (this.mayNotHave(viewer, 'sha')) return false;
 					if(this === viewer || get.itemtype(viewer) == 'player'){
 						cards = this.getKnownCards(viewer);
 					}else{
@@ -28420,6 +28743,8 @@
 					else if(get.itemtype(ignore)==='card') selected.add(ignore);
 					/*if(this===viewer||get.itemtype(viewer)==='player'&&viewer.hasSkillTag('viewHandcard',null,this,true)) cards=this.getCards('h');
 					else cards=this.getShownCards();*/
+					if (this.mayHave(viewer, 'shan')) return true;
+					if (this.mayNotHave(viewer, 'shan')) return false;
 					if(this === viewer || get.itemtype(viewer) == 'player'){
 						cards = this.getKnownCards(viewer);
 					}else{
@@ -28451,6 +28776,50 @@
 					}
 					return false;
 				}
+				mayHave(viewer, name) {
+					return this.ai.mayHave[name] && this.ai.mayHave[name].includes(viewer);
+				}
+				addMayHave(viewer, name) {
+					this.ai.mayHave[name] = this.ai.mayHave[name] || [];
+					this.ai.mayHave[name].add(viewer);
+					this.removeMayNotHave(viewer, name);
+				}
+				addMayHaveForAll(name) {
+					this.ai.mayHave[name] = game.players.slice();
+					this.removeMayNotHaveForAll(name);
+				}
+				removeMayHave(viewer, name) {
+					this.ai.mayHave[name] = this.ai.mayHave[name] || [];
+					this.ai.mayHave[name].remove(viewer);
+				}
+				removeMayHaveForAll(name) {
+					this.ai.mayHave[name] = [];
+				}
+				clearMayHave() {
+					this.ai.mayHave = {};
+				}
+				mayNotHave(viewer, name) {
+					return this.ai.mayNotHave[name] && this.ai.mayNotHave[name].includes(viewer);
+				}
+				addMayNotHave(viewer, name) {
+					this.ai.mayNotHave[name] = this.ai.mayNotHave[name] || [];
+					this.ai.mayNotHave[name].add(viewer);
+					this.removeMayHave(viewer, name);
+				}
+				addMayNotHaveForAll(name) {
+					this.ai.mayNotHave[name] = game.players.slice();
+					this.removeMayHaveForAll(name);
+				}
+				removeMayNotHave(viewer, name) {
+					this.ai.mayNotHave[name] = this.ai.mayNotHave[name] || [];
+					this.ai.mayNotHave[name].remove(viewer);
+				}
+				removeMayNotHaveForAll(name) {
+					this.ai.mayNotHave[name] = [];
+				}
+				clearMayNotHave() {
+					this.ai.mayNotHave = {};
+				}
 				getEquip(name){
 					var es=this.getCards('e');
 					if(typeof name=='object'&&get.info(name)){
@@ -28481,6 +28850,87 @@
 					}
 					return null;
 				}
+				// AI用，判断是否有八卦效果（包括因幡帝【加护】）
+				hasBaguaEffect(source) {
+					if (this.getEquip('bagua') && !(source && source.getEquip('qinggang')))
+						return true;
+					if (this.isDamaged() && this.hasEmptySlot(2) && game.hasPlayer(p => p.distanceTo(this) <= 1 && get.attitude(p, this) > 0 && p.hasSkill('jiahu')))
+						return true;
+					return false;
+				}
+				// AI用，获取够得到自己的角色
+				threateners(fix, include_friends) {
+					var fix = fix || 0;
+					var players = include_friends ? game.players.filter(p => p != this) : game.players.filter(p => p != this && get.attitude(p, this) < 0);
+					var list = []
+					for (var p of players) {
+						if (Math.max(p.distanceTo(this) + fix, 1) <= p.getAttackRange()) {
+							list.push(p);
+						}
+					}
+					return list;
+				}
+				// AI用，有多少人够得到自己
+				threatenersNum(fix, include_friends) {
+					return this.threateners(fix, include_friends).length;
+				}
+				// AI用，获取自己够得到的角色
+				inRangePlayers(fix, include_friends) {
+					var fix = fix || 0;
+					var players = include_friends ? game.players.filter(p => p != this) : game.players.filter(p => p != this && get.attitude(p, this) < 0);
+					var list = []
+					for (var p of players) {
+						if (Math.max(this.distanceTo(p) + fix, 1) <= this.getAttackRange()) {
+							list.push(p);
+						}
+					}
+					return list;
+				}
+				// AI用，自己够得到多少人
+				inRangeNum(fix, include_friends) {
+					return this.inRangePlayers(fix, include_friends).length;
+				}
+				// AI用，判断关键装备
+				getKeyEquips(player) {
+					player = player || this;
+					var key_equips = [];
+					if (player.getDefense() <= 6) {
+						var armor = player.getEquip('equip2');
+						if (armor && armor.name != 'baiyin' && player.getKnownCards(this, 'shan', true).length + player.getKnownCards(this, 'tao', true).length < 2) {
+							key_equips.push(armor);
+						}
+						
+						var def_horse = player.getEquip('equip4');
+						if (def_horse && player.threatenersNum(-1) > player.threatenersNum() && player.getKnownCards(this, 'shan', true).length + player.getKnownCards(this, 'tao', true).length < 2) {
+							key_equips.push(def_horse);
+						}
+					}
+
+					var muniu = player.getEquip('muniu');
+					if (muniu && muniu.cards && (muniu.cards.length >= 2 || player.getKnownCards(this, 'tao', true).length - player.getKnownCards(this, 'tao').length > 0)) {
+						key_equips.push(muniu);
+					}
+
+					if (player.getDefense() <= 6) return key_equips;
+
+					var weapon = player.getEquip('equip1');
+					if (weapon && player.inRangeNum(-get.info(weapon).distance.attackFrom) < player.inRangeNum()) {
+						key_equips.push(weapon);
+					}
+
+					var atk_horse = player.getEquip('equip3');
+					if (weapon && player.inRangeNum(1) < player.inRangeNum()) {
+						key_equips.push(atk_horse);
+					}
+
+					return key_equips;
+				}
+				getKeyEquipNum(player) {
+					return this.getKeyEquips(player).length;
+				}
+				hasKeyEquip(player) {
+					return this.getKeyEquipNum(player) > 0;
+				}
 				getJudge(name){
 					var judges=this.node.judges.childNodes;
 					for(var i=0;i<judges.length;i++){
@@ -28490,6 +28940,12 @@
 						}
 					}
 					return null;
+				}
+				getBadJudges(){
+					return this.getCards('j').filter(c => c.isBadJudge());
+				}
+				hasBadJudge() {
+					return this.getBadJudges().length > 0
 				}
 				$drawAuto(cards,target){
 					if(this.isUnderControl(true,target)){
@@ -30141,6 +30597,9 @@
 				hasGaintag(tag){
 					return this.gaintag&&this.gaintag.contains(tag);
 				}
+				isBadJudge(){
+					return ['lebu', 'bingliang'].includes(this.name);
+				}
 				/**
 				 * @param {[string, number, string, string] | {
 				 * suit: string;
@@ -30574,6 +31033,24 @@
 					if(!this._knowers){
 						this._knowers = [];
 					}
+					var owner = get.owner(this);
+					if (owner) {
+						if (player == 'everyone') {
+							owner.removeMayHaveForAll(this.name);
+							owner.removeMayNotHaveForAll(this.name);
+						} else if (typeof player != 'string') {
+							let type = get.itemtype(player);
+							if (type == 'player') {
+								owner.removeMayHave(player, this.name);
+								owner.removeMayNotHave(player, this.name);
+							} else if(type == 'players') {
+								player.forEach(p => {
+									owner.removeMayHave(p, this.name);
+									owner.removeMayNotHave(p, this.name);
+								});
+							}
+						}
+					}
 					if(typeof player == 'string'){
 						this._knowers.add(player);
 					}else{
@@ -30743,6 +31220,11 @@
 						return true;
 					}
 					return false;
+				}
+				getAiTag(tag){
+					var info = get.info(this);
+					if (!info.ai || !info.ai.tag) return undefined;
+					return info.ai.tag[tag];
 				}
 				hasPosition(){
 					return ['h','e','j','s','x'].contains(get.position(this));
@@ -31555,6 +32037,9 @@
 						if(lib.config.show_cardpile){
 							ui.cardPileButton.style.display='';
 						}
+						for (var p of game.players) {
+							p.setSpell(p.baseSpellNum(), false);
+						}
 						_status.gameStarted=true;
 						game.showHistory();
 					}
@@ -31881,7 +32366,8 @@
 						if(item.startsWith('###')){
 							var items=item.slice(3).split('###');
 							this.add(items[0],noclick,zoom);
-							this.addText(items[1],items[1].length<=20,zoom);
+							for (var i = 1; i < items.length; ++i)
+								this.addText(items[i],items[i].length<=20,zoom);
 						}
 						else if(noclick){
 							var strstr=item;
@@ -33758,6 +34244,9 @@
 					},
 				},
 			},
+			sha_nolimit: {
+				charlotte: true,
+			},
 			global:[],
 			globalmap:{},
 			storage:{},
@@ -33777,7 +34266,7 @@
 					content:function(storage,player){
 						if(typeof storage.intro2=='string') return storage.intro2;
 						if(typeof storage.intro2=='function') return storage.intro2(storage,player);
-						return '死亡前切换回主武将'
+						return '死亡前切换回主角色'
 					},
 					name:function(storage){
 						return get.rawName(storage.name);
@@ -33991,6 +34480,14 @@
 					}
 				},
 				markimage:'image/card/shield.png',
+			},
+			spell:{
+				intro:{
+					content:function(content,player){
+						return '已有'+get.cnNumber(player.countSpell())+'张符卡';
+					}
+				},
+				marktext: '符',
 			},
 			counttrigger:{
 				trigger:{global:'phaseAfter'},
@@ -35553,7 +36050,7 @@
 				nature:'thundermm',
 				showName:'战',
 			}],
-			['武将传',{
+			['角色传',{
 				color:'#c3f9ff',
 				nature:'thundermm',
 				showName:'传',
@@ -35756,6 +36253,10 @@
 			key:'key',
 			jin:'thunder',
 			ye:'thunder',
+			hakurei:'soil',
+			moriya:'wood',
+			chitei:'thunder',
+			getsumen: 'moon',
 		},
 		lineColor:new Map([
 			['fire',[255,146,68]],
@@ -42251,14 +42752,14 @@
 							e.stopPropagation();
 							event.freechoosedialog.style.transform='scale(0.8)';
 							if(event.replacing){
-								event.prompt('用'+get.translation(event.replacing)+'替换一名武将');
+								event.prompt('用'+get.translation(event.replacing)+'替换一名角色');
 							}
 							else{
 								if(event.side==0){
-									event.prompt('请选择两名武将');
+									event.prompt('请选择两名角色');
 								}
 								else{
-									event.prompt('请选择一名武将');
+									event.prompt('请选择一名角色');
 								}
 							}
 						});
@@ -42274,10 +42775,10 @@
 						if(event.replacing){
 							delete event.replacing;
 							if(event.side==0){
-								event.prompt('请选择两名武将');
+								event.prompt('请选择两名角色');
 							}
 							else{
-								event.prompt('请选择一名武将');
+								event.prompt('请选择一名角色');
 							}
 						}
 					};
@@ -42361,10 +42862,10 @@
 				if(event.side<2){
 					event.imchoosing=true;
 					if(event.side==0){
-						event.prompt('请选择两名武将');
+						event.prompt('请选择两名角色');
 					}
 					else{
-						event.prompt('请选择一名武将');
+						event.prompt('请选择一名角色');
 						event.fast=get.time();
 					}
 					game.pause();
@@ -42432,7 +42933,7 @@
 				}
 				game.delay();
 				'step 5'
-				event.prompt('选择'+get.cnNumber(event.config.num)+'名出场武将');
+				event.prompt('选择'+get.cnNumber(event.config.num)+'名出场角色');
 				event.enemylist=[];
 				for(var i=0;i<event.avatars.length;i++){
 					if(event.avatars[i].index>event.config.width){
@@ -44491,10 +44992,10 @@
 					if(!config.clear){
 						if(config.name!='开启'){
 							if(config.name=='屏蔽弱将'){
-								config.intro='强度过低的武将（孙策除外）不会出现在选将框，也不会被AI选择'
+								config.intro='强度过低的角色（孙策除外）不会出现在选将框，也不会被AI选择'
 							}
 							else if(config.name=='屏蔽强将'){
-								config.intro='强度过高的武将不会出现在选将框，也不会被AI选择'
+								config.intro='强度过高的角色不会出现在选将框，也不会被AI选择'
 							}
 							else if(!config.intro){
 								config.intro='设置'+config.name;
@@ -44685,7 +45186,7 @@
 							clickContainer.call(menuContainer);
 						}
 					}
-					menux=createMenu(['开始','选项','武将','卡牌','扩展','其它'],{
+					menux=createMenu(['开始','选项','角色','卡牌','扩展','其它'],{
 						position:menuContainer,bar:40
 					});
 				}
@@ -44720,7 +45221,7 @@
 						}
 					}
 
-					menux=createMenu(['模式','武将','卡牌'],{
+					menux=createMenu(['模式','角色','卡牌'],{
 						position:menuContainer,bar:123
 					});
 					menu=menux.menu;
@@ -44881,13 +45382,14 @@
 								if(connectMenu){
 									infoconfig.connect_choose_timeout={
 										name:'出牌时限',
-										init:'30',
+										init:'-1',
 										item:{
 											'10':'10秒',
 											'15':'15秒',
 											'30':'30秒',
 											'60':'60秒',
 											'90':'90秒',
+											'-1':'无限'
 										},
 										connect:true,
 										frequent:true
@@ -46058,7 +46560,7 @@
 									placeholder.style.display='block';
 									placeholder.style.width='100%';
 									placeholder.style.height='14px';
-									createDash2('将','武将图片','image/character',page);
+									createDash2('将','角色图片','image/character',page);
 									createDash2('肤','皮肤图片','image/skin',page);
 									createDash2('卡','卡牌图片','image/card',page);
 									createDash2('模','模式图片','image/mode',page);
@@ -46278,7 +46780,7 @@
 								name:'仅点将可用',
 								_name:mode,
 								init:boolAI,
-								intro:'将该武将包内的武将全部设置为仅点将可用',
+								intro:'将该角色包内的角色全部设置为仅点将可用',
 								onclick:function(bool){
 									if(bool){
 										for(var i=0;i<list.length;i++){
@@ -46302,7 +46804,7 @@
 										name:'新版替换',
 										_name:mode,
 										init:charactersToAlter.length==0,
-										intro:'以下武将将被修改：'+get.translation(alterableCharacters),
+										intro:'以下角色将被修改：'+get.translation(alterableCharacters),
 										onclick:function(bool){
 											if(bool){
 												for(var i=0;i<alterableSkills.length;i++){
@@ -46478,13 +46980,13 @@
 							page.classList.add('leftbutton');
 							if(!connectMenu){
 								if(lib.config.all.sgscharacters.contains(mode)){
-									ui.create.div('.config.pointerspan','<span style="opacity:0.5">该武将包不可被隐藏</span>',page);
+									ui.create.div('.config.pointerspan','<span style="opacity:0.5">该角色包不可被隐藏</span>',page);
 								}
 								else if(!mode.startsWith('mode_')){
-									ui.create.div('.config.pointerspan','<span>隐藏武将包</span>',page,function(){
-										if(this.firstChild.innerHTML=='隐藏武将包'){
-											if(confirm('真的要隐藏“'+get.translation(mode+'_character_config')+'”武将包吗？\n建议使用“关闭”而不是“隐藏”功能，否则将会影响其他相关武将包的正常运行！')){
-												this.firstChild.innerHTML='武将包将在重启后隐藏';
+									ui.create.div('.config.pointerspan','<span>隐藏角色包</span>',page,function(){
+										if(this.firstChild.innerHTML=='隐藏角色包'){
+											if(confirm('真的要隐藏“'+get.translation(mode+'_character_config')+'”角色包吗？\n建议使用“关闭”而不是“隐藏”功能，否则将会影响其他相关角色包的正常运行！')){
+												this.firstChild.innerHTML='角色包将在重启后隐藏';
 												lib.config.hiddenCharacterPack.add(mode);
 												if(!lib.config.prompt_hidepack){
 													alert('隐藏的扩展包可通过选项-其它-重置隐藏内容恢复');
@@ -46493,7 +46995,7 @@
 											}
 										}
 										else{
-											this.firstChild.innerHTML='隐藏武将包';
+											this.firstChild.innerHTML='隐藏角色包';
 											lib.config.hiddenCharacterPack.remove(mode);
 										}
 										game.saveConfig('hiddenCharacterPack',lib.config.hiddenCharacterPack);
@@ -47833,8 +48335,8 @@
 										skillList.firstChild.appendChild(node);
 									}
 
-									toggle.innerHTML='编辑武将 <div>&gt;</div>';
-									editnode.innerHTML='编辑武将';
+									toggle.innerHTML='编辑角色 <div>&gt;</div>';
+									editnode.innerHTML='编辑角色';
 									editnode.classList.remove('disabled');
 									delnode.innerHTML='删除';
 									delnode.button=this;
@@ -47943,7 +48445,7 @@
 									audio:{}
 								};
 								var newCharacter;
-								var toggle=ui.create.div('.config.more.on','创建武将 <div>&gt;</div>',page,function(){
+								var toggle=ui.create.div('.config.more.on','创建角色 <div>&gt;</div>',page,function(){
 									this.classList.toggle('on');
 									if(this.classList.contains('on')){
 										newCharacter.style.display='';
@@ -47969,8 +48471,8 @@
 										inputs[i].value='';
 									}
 									skillList.firstChild.innerHTML='';
-									toggle.innerHTML='创建武将 <div>&gt;</div>';
-									editnode.innerHTML='创建武将';
+									toggle.innerHTML='创建角色 <div>&gt;</div>';
+									editnode.innerHTML='创建角色';
 									editnode.classList.add('disabled');
 									delnode.innerHTML='取消';
 									delete delnode.button;
@@ -48133,7 +48635,7 @@
 								}
 								addSkillButton.onclick=function(){
 									for(var i=0;i<skillList.firstChild.childNodes.length;i++){
-										if(skillList.firstChild.childNodes[i].skill==skillopt.value) return alert(selectname.value=='current_extension'?'此扩展还未添加技能':'此武将没有技能可添加');
+										if(skillList.firstChild.childNodes[i].skill==skillopt.value) return alert(selectname.value=='current_extension'?'此扩展还未添加技能':'此角色没有技能可添加');
 									}
 									//无技能时
 									if(!skillopt.value||skillopt.childElementCount==0) return;
@@ -48176,10 +48678,10 @@
 								};
 								var skillList=ui.create.div('.skill_list',newCharacter);
 								ui.create.div(skillList);
-								var editnode=ui.create.div('.menubutton.large.disabled','创建武将',ui.create.div(skillList),function(){
+								var editnode=ui.create.div('.menubutton.large.disabled','创建角色',ui.create.div(skillList),function(){
 									var name=page.querySelector('input.new_name').value;
 									if(!name){
-										alert('请填写武将名\n提示：武将名格式为id+|+中文名，其中id必须惟一');
+										alert('请填写角色名\n提示：角色名格式为id+|+中文名，其中id必须惟一');
 										return;
 									}
 									name=name.split('|');
@@ -48188,7 +48690,7 @@
 									if(currentButton){
 										if(currentButton.link!=name){
 											if(lib.character[name]||page.content.pack.character[name]){
-												alert('武将名与现有武将重复，请更改\n提示：武将名格式为id+|+中文名，其中id必须惟一');
+												alert('角色名与现有角色重复，请更改\n提示：角色名格式为id+|+中文名，其中id必须惟一');
 												return;
 											}
 											page.content.image[name+'.jpg']=page.content.image[currentButton.link+'.jpg'];
@@ -48200,7 +48702,7 @@
 									}
 									else{
 										if(lib.character[name]||page.content.pack.character[name]){
-											alert('武将名与现有武将重复，请更改\n提示：武将名格式为id+|+中文名，其中id必须惟一');
+											alert('角色名与现有角色重复，请更改\n提示：角色名格式为id+|+中文名，其中id必须惟一');
 											return;
 										}
 									}
@@ -48209,7 +48711,7 @@
 									}
 									else{
 										if(!page.content.image[name+'.jpg']){
-											alert('请选择武将头像');
+											alert('请选择角色头像');
 											return;
 										}
 									}
@@ -48243,7 +48745,7 @@
 
 									page.content.pack.translate[name]=translate;
 									page.content.pack.character[name]=[sexes.value,groups.value,hp,skills,tags];
-									if(this.innerHTML=='创建武将'){
+									if(this.innerHTML=='创建角色'){
 										createButton(name,fakeme.image64);
 									}
 									else if(currentButton){
@@ -49374,7 +49876,7 @@
 										}
 									}
 									else{
-										dashes.content.node.code='function(config,pack){\n    \n}\n\n\/*\n函数执行时机为游戏数据加载之后、界面加载之前\n参数1扩展选项（见选项代码）；参数2为扩展定义的武将、卡牌和技能等（可在此函数中修改）\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/';
+										dashes.content.node.code='function(config,pack){\n    \n}\n\n\/*\n函数执行时机为游戏数据加载之后、界面加载之前\n参数1扩展选项（见选项代码）；参数2为扩展定义的角色、卡牌和技能等（可在此函数中修改）\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/';
 										dashes.precontent.node.code='function(){\n    \n}\n\n\/*\n函数执行时机为游戏数据加载之前，且不受禁用扩展的限制\n除添加模式外请慎用\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/';
 										dashes.config.node.code='config={\n    \n}\n\n\/*\n示例：\nconfig={\n    switcher_example:{\n    name:"示例列表选项",\n        init:"3",\n        item:{"1":"一","2":"二","3":"三"}\n    },\n    toggle_example:{\n        name:"示例开关选项",\n        init:true\n    }\n}\n此例中传入的主代码函数的默认参数为{switcher_example:"3",toggle_example:true}\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/';
 										dashes.help.node.code='help={\n    \n}\n\n\/*\n示例：\nhelp={\n    "帮助条目":"<ul><li>列表1-条目1<li>列表1-条目2</ul><ol><li>列表2-条目1<li>列表2-条目2</ul>"\n}\n帮助内容将显示在菜单－选项－帮助中\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/';
@@ -49483,14 +49985,14 @@
 									}
 								};
 								page.content={}
-								createCode('主','主代码',page,clickCode,'content','function(config,pack){\n    \n}\n\n\/*\n函数执行时机为游戏数据加载之后、界面加载之前\n参数1扩展选项（见选项代码）；参数2为扩展定义的武将、卡牌和技能等（可在此函数中修改）\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/');
+								createCode('主','主代码',page,clickCode,'content','function(config,pack){\n    \n}\n\n\/*\n函数执行时机为游戏数据加载之后、界面加载之前\n参数1扩展选项（见选项代码）；参数2为扩展定义的角色、卡牌和技能等（可在此函数中修改）\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/');
 								createCode('启','启动代码',page,clickCode,'precontent','function(){\n    \n}\n\n\/*\n函数执行时机为游戏数据加载之前，且不受禁用扩展的限制\n除添加模式外请慎用\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/');
 								createCode('选','选项代码',page,clickCode,'config','config={\n    \n}\n\n\/*\n示例：\nconfig={\n    switcher_example:{\n        name:"示例列表选项",\n        init:"3",\n     	  item:{"1":"一","2":"二","3":"三"}\n    },\n    toggle_example:{\n        name:"示例开关选项",\n        init:true\n    }\n}\n此例中传入的主代码函数的默认参数为{switcher_example:"3",toggle_example:true}\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/');
 								createCode('帮','帮助代码',page,clickCode,'help','help={\n    \n}\n\n\/*\n示例：\nhelp={\n    "帮助条目":"<ul><li>列表1-条目1<li>列表1-条目2</ul><ol><li>列表2-条目1<li>列表2-条目2</ul>"\n}\n帮助内容将显示在菜单－选项－帮助中\n导出时本段代码中的换行、缩进以及注释将被清除\n*\/');
 
 								return page;
 							}());
-							createDash('将','编辑武将',dash1);
+							createDash('将','编辑角色',dash1);
 							createDash('卡','编辑卡牌',dash2);
 							createDash('技','编辑技能',dash3);
 							createDash('码','编辑代码',dash4);
@@ -51676,7 +52178,7 @@
 							if(!packsource.onlypack){
 								packsource.classList.remove('thundertext');
 								if(!get.is.phoneLayout()||!lib.config.filternode_button){
-									packsource.innerHTML='武将包';
+									packsource.innerHTML='角色包';
 								}
 							}
 						}
@@ -51915,7 +52417,7 @@
 							packsource.previousSibling.style.display='none';
 						}
 						else{
-							packsource.innerHTML='武将包';
+							packsource.innerHTML='角色包';
 						}
 					}
 
@@ -53402,10 +53904,10 @@
 						for(var i of game.connectPlayers){
 							if(!i.nickname&&!i.classList.contains('unselectable2')) num++;
 						}
-						if(num>=numberOfPlayers-1){
-							alert('至少要有两名玩家才能开始游戏！');
-							return;
-						}
+						// if(num>=numberOfPlayers-1){
+						// 	alert('至少要有两名玩家才能开始游戏！');
+						// 	return;
+						// }
 						game.resume();
 					}
 					button.delete();
@@ -58943,7 +59445,7 @@
 				name=name.slice(name.indexOf('_')+1);
 			}
 			if(lib.characterIntro[name]) return lib.characterIntro[name];
-			return '暂无武将介绍';
+			return '暂无角色介绍';
 		},
 		bordergroup:(info,raw)=>{
 			if(!Array.isArray(info)){
@@ -62140,7 +62642,7 @@
 				}else{
 					i=player.getCards('h',card.name).indexOf(card);
 				}
-				if(i<0) i=0;
+				if(i<0) i=player.getCards('h',card.name).length;
 			}
 			var aii=get.info(card).ai;
 			var useful;
@@ -62195,15 +62697,22 @@
 				if(cards.contains(card)){
 					return cards.indexOf(card);
 				}
-				return cards.length;
+				return -1;
 			};
 			if(typeof value=='function'){
-				result=value(card,player,geti(),method);
+				var num = geti();
+				if (num < 0) {
+					num = player.getCards('hs', card.name).length;
+				}
+				result=value(card,player,num,method);
 			}
 			if(typeof value=='number') result=value;
 			if(Array.isArray(value)){
 				if(method=='raw') result=value[0];
 				var num=geti();
+				if (num < 0) {
+					num = player.getCards('hs', card.name).length;
+				}
 				if(num<value.length) result=value[num];
 				else result=value[value.length-1];
 			}
@@ -62652,10 +63161,14 @@
 			if(zeroplayer) result1=0;
 			if(zerotarget) result2=0;
 			var final=0;
-			if(player2){
-				final=(result1*get.attitude(player2,player)+(target?result2*get.attitude(player2,target):0));
+			var viewer = player2 || player;
+			var target_attitude = 0;
+			if (target) {
+				target_attitude = get.attitude(viewer, target);
+				if (card && card.name == 'duxin' && target_attitude == 0)
+					target_attitude = -3;
 			}
-			else final=(result1*get.attitude(player,player)+(target?result2*get.attitude(player,target):0));
+			final = (result1 * get.attitude(viewer, player) + (target ? result2 * get.attitude(viewer, target) : 0));
 			if(!isLink&&get.tag(card,'natureDamage')&&!zerotarget){
 				var info=get.info(card);
 				if(!info||!info.ai||!info.ai.canLink){

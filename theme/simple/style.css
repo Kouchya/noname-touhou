@@ -2,7 +2,7 @@ html{
 	color: white;
 	text-shadow: black 0 0 2px;
 	min-height: 100%;
-	background-image: url('../../image/background/ol_bg.jpg');
+	background-image: url('../../image/background/gensoukyou3_bg.jpg');
 	background-size: cover;
 	background-position: 50% 50%;
 }
@@ -131,6 +131,10 @@ html{
 }
 .card.infohidden:not(.infoflip){
 	background: url('../style/cardback/image/official2.png');
+	background-size: 100% 100%;
+}
+.card.infohidden.infoflip{
+	background: url('../style/cardback/image/official.png');
 	background-size: 100% 100%;
 }
 

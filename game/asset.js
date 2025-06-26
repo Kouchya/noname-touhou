@@ -5987,6 +5987,8 @@ window.noname_asset_list=[
 	'font/yuanli.woff2',
 	
 	/*background image begin*/
+	'image/background/gensoukyou3_bg.jpg',
+	'image/background/gensoukyou2_bg.jpg',
 	'image/background/beipan_bg.jpg',
 	'image/background/heaven_bg.jpg',
 	'image/background/huangtian_bg.jpg',

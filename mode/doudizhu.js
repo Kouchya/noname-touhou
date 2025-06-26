@@ -2279,9 +2279,9 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 					player.draw();
 				},
 				mod:{
-					cardUsable:function(card,player,num){
-						if(_status.mode!='online'&&_status.mode!='binglin'&&player==game.zhu&&card.name=='sha') return num+1;
-					},
+					baseSpell:function(player,num){
+						if(_status.mode!='online'&&_status.mode!='binglin'&&player==game.zhu) return num+1;
+					}
 				},
 			},
 			diqi_skill:{

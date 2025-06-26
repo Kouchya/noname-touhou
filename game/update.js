@@ -55,6 +55,7 @@ window.noname_update={
 		'character/yingbian.js',
 		'character/yxs.js',
 		'character/zhuogui.js',
+		'character/touhou.js',
 		'game/config.js',
 		'game/game.js',
 		'game/pinyinjs.js',

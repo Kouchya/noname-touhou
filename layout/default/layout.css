@@ -390,6 +390,11 @@ table {
 	white-space: nowrap;
 	writing-mode: vertical-rl;
 	-webkit-writing-mode: vertical-rl;
+	text-shadow:
+		-1px -1px 4px #331100,
+		-1px 1px 4px #331100,
+		1px -1px 4px #331100,
+		1px 1px 4px #331100;
 }
 #splash>div>.avatar {
 	width: 86px;
@@ -397,6 +402,8 @@ table {
 	left: 7px;
 	top: 7px;
 	background-size: cover;
+	filter: sepia(0.1) saturate(0.8);
+	-webkit-filter: sepia(0.1) saturate(0.8);
 }
 
 #splash.slim>div>.splashtext{
@@ -2387,6 +2394,9 @@ div:not(.handcards)>.card>.info>span,
 #window>.damage.fullscreenavatar[data-nature='gray']>div:first-child>div{
 	box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px, rgba(0, 0, 0,0.5) 0 0 20px, rgba(0, 0, 0,0.3) 0 0 40px, rgba(213, 194, 179, 1) 0 0 80px;
 }
+#window>.damage.fullscreenavatar[data-nature='moon']>div:first-child>div{
+	box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px, rgba(0, 0, 0,0.5) 0 0 20px, rgba(0, 0, 0,0.3) 0 0 40px, rgba(28, 148, 140,1) 0 0 80px;
+}
 #window>.damage.fullscreenavatar>.text{
 	display: table;
 }
@@ -2775,7 +2785,7 @@ div:not(.handcards)>.card>.info>span,
 .player::before,
 .card::before,
 .button::before {
-	box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px, rgba(0, 133, 255, 0.5) 0 0 5px, rgba(0, 133, 255, 0.6) 0 0 12px, rgba(0, 133, 255, 0.8) 0 0 15px;
+	box-shadow: rgba(0, 0, 0, 0.2) 0 0 0 1px, rgba(250, 238, 9, 0.5) 0 0 5px, rgba(250, 238, 9, 0.6) 0 0 12px, rgba(250, 238, 9, 0.8) 0 0 15px;
 }
 
 
@@ -4165,6 +4175,27 @@ div[data-nature='icemx'],
 span[data-nature='icemx'] {
 	text-shadow: black 0 0 1px,rgba(213, 194, 179,0.2) 0 0 2px,rgba(213, 194, 179,1) 0 0 2px,rgba(213, 194, 179,1) 0 0 5px,
 		rgba(213, 194, 179,1) 0 0 5px,black 0 0 1px;
+}
+
+div[data-nature='moon'],
+span[data-nature='moon'] {
+	text-shadow: rgb(28, 148, 140,1) 0 0 2px,rgba(28, 148, 140,1) 0 0 5px,rgba(28, 148, 140,1) 0 0 10px,
+		rgba(28, 148, 140,1) 0 0 10px,rgba(28, 148, 140,1) 0 0 20px,rgba(28, 148, 140,1) 0 0 20px,black 0 0 1px;
+}
+div[data-nature='moonm'],
+span[data-nature='moonm'] {
+	text-shadow: rgba(28, 148, 140,1) 0 0 2px,rgba(28, 148, 140,1) 0 0 5px,rgba(28, 148, 140,1) 0 0 5px,
+		rgba(28, 148, 140,1) 0 0 5px,black 0 0 1px;
+}
+div[data-nature='moonmm'],
+span[data-nature='moonmm'] {
+	text-shadow: rgba(28, 148, 140,1) 0 0 2px,rgba(28, 148, 140,1) 0 0 2px,rgba(28, 148, 140,1) 0 0 2px,
+		rgba(28, 148, 140,1) 0 0 2px,black 0 0 1px;
+}
+div[data-nature='moonmx'],
+span[data-nature='moonmx'] {
+	text-shadow: rgba(0,0,0,0.4) 0 0 1px,rgba(28, 148, 140,1) 0 0 2px,rgba(28, 148, 140,1) 0 0 2px,rgba(28, 148, 140,1) 0 0 5px,
+		rgba(28, 148, 140,1) 0 0 5px,black 0 0 1px;
 }
 
 .player .identity[data-color="unknownx"],

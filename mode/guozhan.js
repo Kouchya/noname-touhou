@@ -13511,7 +13511,7 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 				uiintro.add('<div class="text chat">群雄割据：'+(lib.configOL.separatism?'开启':'关闭'));
 				uiintro.add('<div class="text chat">首亮奖励：'+num);
 				uiintro.add('<div class="text chat">珠联璧合：'+(lib.configOL.zhulian?'开启':'关闭'));
-				uiintro.add('<div class="text chat">出牌时限：'+lib.configOL.choose_timeout+'秒');
+				uiintro.add('<div class="text chat">出牌时限：'+lib.configOL.choose_timeout>0?lib.configOL.choose_timeout+'秒':'无限');
 				uiintro.add('<div class="text chat">国战牌堆：'+(lib.configOL.guozhanpile?'开启':'关闭'));
 				uiintro.add('<div class="text chat">鏖战模式：'+(lib.configOL.aozhan?'开启':'关闭'));
 				last=uiintro.add('<div class="text chat">观看下家副将：'+(lib.configOL.viewnext?'开启':'关闭'));

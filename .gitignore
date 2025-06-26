@@ -6,3 +6,9 @@
 ehthumbs.db
 Thumbs.db
 localStorage.json
+*.zip
+扩展联机/
+OLUI(v2.0)发行版/
+records/
+AI优化v1.2.2/
+.vscode/

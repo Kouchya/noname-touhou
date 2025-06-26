@@ -2637,8 +2637,8 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					event.ai_targets=[];
 					event.results=[];
 					var players=game.filterPlayer().sortBySeat();
-					var time=10000;
-					if(lib.configOL&&lib.configOL.choose_timeout) time=parseInt(lib.configOL.choose_timeout)*1000;
+					var time=-1;
+					if(lib.configOL&&lib.configOL.choose_timeout&&lib.configOL.choose_timeout>0) time=parseInt(lib.configOL.choose_timeout)*1000;
 					for(var i=0;i<players.length;i++){
 						players[i].showTimer(time);
 						if(players[i].isOnline()){

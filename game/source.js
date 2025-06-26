@@ -49,6 +49,7 @@ window.noname_source_list=[
 	'character/yingbian.js',
 	'character/yxs.js',
 	'character/zhuogui.js',
+	'character/touhou.js',
 	'font/motoyamaru.woff2',
 	'font/suits.woff2',
 	'game/asset.js',

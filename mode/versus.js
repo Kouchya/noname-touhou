@@ -398,6 +398,7 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 						}
 						return 4;
 					});
+					if(_status.connectMode&&lib.configOL.change_card) game.replaceHandcards(game.players.slice(0));
 					game.phaseLoop(firstChoose);
 				}
 				else if(_status.mode=='endless'){
@@ -586,7 +587,7 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 				else if(lib.configOL.versus_mode=='2v2'||lib.configOL.versus_mode=='3v3'){
 					uiintro.add('<div class="text chat">四号位换牌：'+(lib.configOL.replace_handcard?'开启':'关闭'));
 				}
-				var last=uiintro.add('<div class="text chat">出牌时限：'+lib.configOL.choose_timeout+'秒');
+				var last=uiintro.add('<div class="text chat">出牌时限：'+lib.configOL.choose_timeout>0?lib.configOL.choose_timeout+'秒':'无限');
 				// uiintro.add('<div class="text chat">屏蔽弱将：'+(lib.configOL.ban_weak?'开启':'关闭'));
 				// var last=uiintro.add('<div class="text chat">屏蔽强将：'+(lib.configOL.ban_strong?'开启':'关闭'));
 				if(lib.configOL.banned.length){

@@ -79,7 +79,8 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 							card=cards[0];
 						}
 						if(!target.storage.jiu) target.storage.jiu=0;
-						target.storage.jiu+=event.baseDamage;
+						// target.storage.jiu+=event.baseDamage;
+						target.storage.jiu++;
 						game.broadcastAll(function(target,card,gain2){
 							target.addSkill('jiu');
 							if(!target.node.jiu&&lib.config.jiu_effect){
@@ -256,16 +257,16 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 							if(target==player){
 								if(typeof _status.event.filterCard=='function'&&
 									_status.event.filterCard({name:'huogong'},player,_status.event)){
-									return -1.15;
+									return -1.15 / Math.max(0.5, target.getDefense());
 								}
 								if(_status.event.skill){
 									var viewAs=get.info(_status.event.skill).viewAs;
-									if(viewAs=='huogong') return -1.15;
-									if(viewAs&&viewAs.name=='huogong') return -1.15;
+									if(viewAs=='huogong') return -1.15 / Math.max(0.5, target.getDefense());
+									if(viewAs&&viewAs.name=='huogong') return -1.15 / Math.max(0.5, target.getDefense());
 								}
 								return 0;
 							}
-							return -1.15;
+							return -1.15 / Math.max(0.5, target.getDefense());
 						}
 					},
 					tag:{
@@ -307,15 +308,15 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 								var f=target.hasSkillTag('nofire');
 								var t=target.hasSkillTag('nothunder');
 								if(f&&t) return 0;
-								if(f||t) return 0.5;
-								return 2;
+								if(f||t) return 0.5 / Math.max(0.5, target.getDefense());
+								return 2 / Math.max(0.5, target.getDefense());
 							}
-							if(get.attitude(player,target)>=0) return -0.9;
-							if(ui.selected.targets.length) return -0.9;
+							if(get.attitude(player,target)>=0) return -0.9 / Math.max(0.5, target.getDefense());
+							if(ui.selected.targets.length) return -0.9 / Math.max(0.5, target.getDefense());
 							if(game.hasPlayer(function(current){
 								return get.attitude(player,current)<=-1&&current!=target&&!current.isLinked();
 							})){
-								return -0.9;
+								return -0.9 / Math.max(0.5, target.getDefense());
 							}
 							return 0;
 						}
@@ -498,6 +499,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 				}
 			},
 			muniu_skill:{
+				audio:false,
 				equipSkill:true,
 				enable:'phaseUse',
 				usable:1,
@@ -641,6 +643,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			},
 			muniu_skill7:{
 				trigger:{player:'loseEnd'},
+				audio:false,
 				firstDo:true,
 				forced:true,
 				//silent:true,
@@ -956,41 +959,40 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			jiu:'酒',
 			jiu_info:'①每回合限一次。出牌阶段，对你自己使用。本回合目标角色使用的下一张【杀】的伤害值基数+1。②当你处于濒死状态时，对你自己使用。目标角色回复1点体力。',
 			huogong:'火攻',
-			tiesuo:'铁索连环',
+			tiesuo:'鬼缚金锁',
 			tiesuo_info:'此牌可被重铸。出牌阶段，对至多两名角色使用。目标角色横置。',
 			huogong_bg:'攻',
 			huogong_info:'出牌阶段，对一名有手牌的角色使用。目标角色展示一张手牌A，然后你可以弃置一张与A花色相同的手牌，对目标造成1点火属性伤害。',
-			tiesuo_bg:'索',
-			bingliang:'兵粮寸断',
-			hualiu:'骅骝',
-			zhuque:'朱雀羽扇',
-			bingliang_bg:'粮',
+			tiesuo_bg:'锁',
+			bingliang:'神社贡赋',
+			hualiu:'蓬莱人形',
+			zhuque:'莱瓦汀',
+			bingliang_bg:'贡',
 			bingliang_info:'出牌阶段，对一名距离为1的其他角色使用。目标角色于其判定阶段进行判定：若判定结果不为梅花，则其跳过下一个摸牌阶段。',
-			hualiu_bg:'+马',
+			hualiu_bg:'+人形',
 			hualiu_info:'锁定技，其他角色计算与你的距离+1。',
-			zhuque_bg:'扇',
-			zhuque_skill:'朱雀羽扇',
+			zhuque_bg:'莱',
+			zhuque_skill:'莱瓦汀',
 			zhuque_info:'当你声明使用普【杀】后，你可以为此【杀】赋予火属性。',
-			guding:'古锭刀',
+			guding:'菊花印',
 			guding_info:'锁定技，当你因执行【杀】的效果而对目标角色造成伤害时，若其没有手牌，则此伤害+1。',
-			guding_skill:'古锭刀',
-			tengjia:'藤甲',
-			//tengjia_info:'锁定技，【南蛮入侵】、【万箭齐发】、【出其不意】和普通【杀】对你无效。当你受到火焰伤害时，该伤害+1。',
-			tengjia_info:'锁定技。①【南蛮入侵】、【万箭齐发】和普【杀】对你无效。②当你受到火属性伤害时，此伤害+1。',
-			tengjia1:'藤甲',
-			tengjia2:'藤甲',
-			tengjia3:'藤甲',
-			baiyin:'白银狮子',
-			baiyin_info:'锁定技。①当你受到伤害时，若此伤害大于1，则你将伤害值扣减至1点。②当你失去装备区内的【白银狮子】后，你回复1点体力。',
-			baiyin_skill:'白银狮子',
+			guding_skill:'菊花印',
+			tengjia:'神德魔阵',
+			tengjia_info:'锁定技。①【人形操纵】、【弹幕】和普【杀】对你无效。②当你受到火属性伤害时，此伤害+1。',
+			tengjia1:'神德魔阵',
+			tengjia2:'神德魔阵',
+			tengjia3:'神德魔阵',
+			baiyin:'泄矢铁轮',
+			baiyin_info:'锁定技。①当你受到伤害时，若此伤害大于1，则你将伤害值扣减至1点。②当你失去装备区内的【泄矢铁轮】后，你回复1点体力。',
+			baiyin_skill:'泄矢铁轮',
 			
-			muniu:'木牛流马',
-			muniu_bg:'牛',
-			muniu_skill:'木牛',
-			muniu_skill7:'木牛流马',
-			muniu_skill_bg:'辎',
-			muniu_info:'①出牌阶段限一次，你可以将一张手牌扣置于你装备区里的【木牛流马】下，然后你可以将【木牛流马】移动到一名其他角色的装备区里。②你可以将【木牛流马】下的牌如手牌般使用或打出。③当你失去装备区的【木牛流马】后，你刷新〖木牛流马①〗的使用次数限制。若此牌不是因置入其他角色的装备区而失去的，则你将【木牛流马】下的所有牌置入弃牌堆。',
-			muniu_skill_info:'将一张手牌扣置于你装备区里的【木牛流马】下，然后可以将此装备移动到一名其他角色的装备区里。',
+			muniu:'阴阳玉',
+			muniu_bg:'玉',
+			muniu_skill:'阴阳玉',
+			muniu_skill7:'阴阳玉',
+			muniu_skill_bg:'玉',
+			muniu_info:'①出牌阶段限一次，你可以将一张手牌扣置于你装备区里的【阴阳玉】下，然后你可以将【阴阳玉】移动到一名其他角色的装备区里。②你可以将【阴阳玉】下的牌如手牌般使用或打出。③当你失去装备区的【阴阳玉】后，你刷新〖阴阳玉①〗的使用次数限制。若此牌不是因置入其他角色的装备区而失去的，则你将【阴阳玉】下的所有牌置入弃牌堆。',
+			muniu_skill_info:'将一张手牌扣置于你装备区里的【阴阳玉】下，然后可以将此装备移动到一名其他角色的装备区里。',
 		},
 		list:[
 			["heart",4,"sha","fire"],

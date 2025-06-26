@@ -4228,8 +4228,8 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 					var players=game.filterPlayer(function(current){
 						return current!=player;
 					}).sortBySeat();
-					var time=10000;
-					if(lib.configOL&&lib.configOL.choose_timeout) time=parseInt(lib.configOL.choose_timeout)*1000;
+					var time=-1;
+					if(lib.configOL&&lib.configOL.choose_timeout&&lib.configOL.choose_timeout>0) time=parseInt(lib.configOL.choose_timeout)*1000;
 					for(var i=0;i<players.length;i++){
 						players[i].showTimer(time);
 						if(!event.players.contains(players[i])) continue;

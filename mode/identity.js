@@ -428,7 +428,7 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 				else{
 					uiintro.add('<div class="text chat">卡牌替换：'+(lib.configOL.zhong_card?'开启':'关闭'));
 				}
-				var last=uiintro.add('<div class="text chat">出牌时限：'+lib.configOL.choose_timeout+'秒');
+				var last=uiintro.add('<div class="text chat">出牌时限：'+lib.configOL.choose_timeout>0?lib.configOL.choose_timeout+'秒':'无限');
 				// uiintro.add('<div class="text chat">屏蔽弱将：'+(lib.configOL.ban_weak?'开启':'关闭'));
 				// var last=uiintro.add('<div class="text chat">屏蔽强将：'+(lib.configOL.ban_strong?'开启':'关闭'));
 				if(lib.configOL.banned.length){
@@ -3061,8 +3061,8 @@ game.import('mode',function(lib,game,ui,get,ai,_status){
 					var camouflaged=event.targets=game.players.filter(current=>current.identity=='fan'&&!current.ai.stratagemCamouflage).randomGets(Math.max(Math.round(get.population()/6),1));
 					camouflaged.forEach(current=>current.ai.stratagemCamouflage=true);
 					event.videoId=lib.status.videoId++;
-					var time=10000;
-					if(lib.configOL&&lib.configOL.choose_timeout) time=parseInt(lib.configOL.choose_timeout)*1000;
+					var time=-1;
+					if(lib.configOL&&lib.configOL.choose_timeout&&lib.configOL.choose_timeout>0) time=parseInt(lib.configOL.choose_timeout)*1000;
 					var aiTargets=event.aiTargets=[];
 					event.players.forEach(current=>{
 						current.showTimer(time);
