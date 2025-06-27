@@ -59,7 +59,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 				savable:function(card,player,dying){
 					return dying==player||player.hasSkillTag('jiuOther',null,dying,true);
 				},
-				usable:1,
+				// usable:1,
 				selectTarget:-1,
 				modTarget:true,
 				filterTarget:function(card,player,target){
@@ -81,8 +81,13 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 						if(!target.storage.jiu) target.storage.jiu=0;
 						// target.storage.jiu+=event.baseDamage;
 						target.storage.jiu++;
+            game.log(target, '获得了一点醉酒值');
 						game.broadcastAll(function(target,card,gain2){
-							target.addSkill('jiu');
+							if(target.hasSkillTag('jiuSustain',null,'phase')){
+								target.addSkill('jiu');
+							}else{
+								target.addTempSkill('jiu',{player:'phaseBegin'});
+							}
 							if(!target.node.jiu&&lib.config.jiu_effect){
 								target.node.jiu=ui.create.div('.playerjiu',target.node.avatar);
 								target.node.jiu2=ui.create.div('.playerjiu',target.node.avatar2);
@@ -666,28 +671,53 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 			},
 			huogong2:{charlotte:true},
 			jiu:{
-				trigger:{player:'useCard1'},
+				trigger:{player:['useCard1','dying']},
 				filter:function(event){
-					return event.card&&event.card.name=='sha';
+					if(event.name=='useCard') return event.card&&event.card.name=='sha';
+					return true;
 				},
 				forced:true,
 				charlotte:true,
 				firstDo:true,
 				content:function(){
-					if(!trigger.baseDamage) trigger.baseDamage=1;
-					trigger.baseDamage+=player.storage.jiu;
-					trigger.jiu=true;
-					trigger.jiu_add=player.storage.jiu;
-					game.addVideo('jiuNode',player,false);
-					game.broadcastAll(function(player){
-						player.removeSkill('jiu');
-					},player);
+					if(trigger.name=='useCard'){
+						if(!trigger.baseDamage) trigger.baseDamage=1;
+						trigger.baseDamage+=player.storage.jiu;
+						trigger.jiu=true;
+						trigger.jiu_add=player.storage.jiu;
+						game.addVideo('jiuNode',player,false);
+						game.broadcastAll(function(player){
+							player.removeSkill('jiu');
+						},player);
+					}else{
+						const diff=1-player.getHp();
+						const recover=Math.min(diff,player.storage.jiu);
+						player.recover(recover);
+						player.storage.jiu-=recover;
+						if(player.storage.jiu<=0){
+							game.addVideo('jiuNode',player,false);
+							game.broadcastAll(function(player){
+								player.removeSkill('jiu');
+							},player);
+						}
+					}
 				},
 				temp:true,
 				vanish:true,
 				silent:true,
 				popup:false,
 				nopop:true,
+				mark:true,
+				marktext:'酒',
+				intro:{
+					name:'醉酒值',
+					content:function(storage,player){
+						return `当前醉酒值：${player.storage.jiu}<br>下一张【杀】伤害+${player.storage.jiu}<br>进入濒死时回复${player.storage.jiu}点体力（至多回复至1点）`;
+					},
+					markcount:function(storage,player){
+						return player.storage.jiu;
+					}
+				},
 				onremove:function(player){
 					if(player.node.jiu){
 						player.node.jiu.delete();
@@ -706,12 +736,13 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 				group:'jiu2'
 			},
 			jiu2:{
-				trigger:{player:'useCardAfter',global:'phaseAfter'},
+				// trigger:{player:'useCardAfter',global:'phaseAfter'},
+				trigger:{player:'useCardAfter'},
 				priority:2,
 				firstDo:true,
 				charlotte:true,
 				filter:function(event,player){
-					if(player.hasSkillTag('jiuSustain',null,event.name)) return false;
+					// if(player.hasSkillTag('jiuSustain',null,event.name)) return false;
 					if(event.name=='useCard') return (event.card&&(event.card.name=='sha'));
 					return true;
 				},
@@ -957,7 +988,7 @@ game.import('card',function(lib,game,ui,get,ai,_status){
 		},
 		translate:{
 			jiu:'酒',
-			jiu_info:'①每回合限一次。出牌阶段，对你自己使用。本回合目标角色使用的下一张【杀】的伤害值基数+1。②当你处于濒死状态时，对你自己使用。目标角色回复1点体力。',
+			jiu_info:'①出牌阶段，对你自己使用。目标角色获得1点醉酒值。<br>②当你处于濒死状态时，对你自己使用。目标角色回复1点体力。<br>（每有1点醉酒值，下一张【杀】造成的伤害便+1。醉酒角色濒死时失去1点醉酒值并回复1点体力，重复直到失去全部醉酒值或体力回复至1点。回合开始时醉酒值清零。）',
 			huogong:'火攻',
 			tiesuo:'鬼缚金锁',
 			tiesuo_info:'此牌可被重铸。出牌阶段，对至多两名角色使用。目标角色横置。',

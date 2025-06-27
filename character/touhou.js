@@ -11,7 +11,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
 		character:{
       reimu: ['female', 'hakurei', 4, ['fengmo', 'guayu'], ['zhu']],
       marisa: ['female', 'hakurei', 3, ['xingchen', 'sheyue']],
-      suika: ['female', 'hakurei', 4, ['shantou']],
+      suika: ['female', 'hakurei', 4, ['shantou', 'zuiyan']],
       yukari: ['female', 'hakurei', 4, ['jiejie']],
       kyouko: ['female', 'hakurei', 3, ['huiyin', 'kuopin']],
       kogasa: ['female', 'hakurei', 3, ['donghe', 'yeyu']],
@@ -313,6 +313,57 @@ game.import('character',function(lib,game,ui,get,ai,_status){
           target.damage();
           if (target.countCards('h') < player.countCards('h')) {
             target.draw();
+          }
+        }
+      },
+      zuiyan: {
+        audio: false,
+        trigger: {global: 'useCardAfter'},
+        filter: function(event, player) {
+          return event.card.name === 'jiu' && event.player.isPhaseUsing() && !player.hasSkill('zuiyan_blocker');
+        },
+        check: function(event, player) {
+          if (get.attitude(player, event.player) <= 0) return false;
+          var peach_num = player.countCards('hm', 'tao') + player.countCards('hm', 'jiu');
+          for (var p of game.players) {
+            if (player != p && get.attitude(player, p) > 0) {
+              peach_num += p.getKnownCards(player, 'tao', true);
+            }
+          }
+          if (peach_num + player.getHp() >= 4) return true;
+          if (player.countCards('hm', 'shan') > 0 && player.getHp() >= 3) return true;
+          return false;
+        },
+        content: function() {
+          'step 0'
+          player.loseHp(1);
+          player.addTempSkill('zuiyan_blocker');
+
+          'step 1'
+          trigger.player.chooseControl('获得一张符卡', '获得1点醉酒值')
+            .set('prompt', `${get.translation(player)}发动了醉宴，请选择一项：`)
+            .set('ai', () => {
+              if (trigger.player.shaNoLimit()) return 1;
+              const shaNum = trigger.player.countCards('hm', 'sha');
+              if (trigger.player.countSpell() < shaNum) return 0;
+              return 1;
+            });
+
+          'step 2'
+          if (result.index === 0) {
+            trigger.player.addSpell(1);
+            trigger.player.popup('获得符卡');
+          } else if (result.index === 1) {
+            if(!trigger.player.storage.jiu) trigger.player.storage.jiu=0;
+						trigger.player.storage.jiu++;
+            trigger.player.syncStorage('jiu');
+            trigger.player.popup('加重醉酒');
+            game.log(trigger.player, '获得了一点醉酒值');
+          }
+        },
+        subSkill: {
+          blocker: {
+            charlotte: true
           }
         }
       },
@@ -3915,7 +3966,7 @@ game.import('character',function(lib,game,ui,get,ai,_status){
               'step 2'
               var target = result.targets[0];
               target.setMark('shengyao_earth_protect', 1, false);
-              player.addTempSkill('shengyao_earth_protect', {player: 'phaseBefore'});
+              player.addTempSkill('shengyao_earth_protect', {player: 'phaseBegin'});
             },
             // marktext: '土',
             // intro: {
@@ -4286,6 +4337,8 @@ game.import('character',function(lib,game,ui,get,ai,_status){
       suika: '伊吹萃香',
       shantou: '山投',
       shantou_info: '结束阶段，你可以对一名体力值大于你的其他角色造成1点伤害，然后若其手牌数小于你，其摸一张牌。',
+      zuiyan: '醉宴',
+      zuiyan_info: '每回合限一次，一名角色于其出牌阶段内使用【酒】后，你可以失去1点体力并令其选择一项：1.其获得一张符卡；2.其获得1点醉酒值。',
 
       yukari: '八云紫',
       jiejie: '结界',
